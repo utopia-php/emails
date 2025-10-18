@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utopia PHP Framework
  *
@@ -20,7 +21,7 @@ use Utopia\Emails\Email;
 
 class EmailTest extends TestCase
 {
-    public function testValidEmail(): void
+    public function test_valid_email(): void
     {
         $email = new Email('test@example.com');
 
@@ -41,7 +42,7 @@ class EmailTest extends TestCase
         $this->assertEquals('test@example.com', $email->normalize());
     }
 
-    public function testEmailWithSubdomain(): void
+    public function test_email_with_subdomain(): void
     {
         $email = new Email('user@mail.example.com');
 
@@ -53,7 +54,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasSubdomain());
     }
 
-    public function testGmailEmail(): void
+    public function test_gmail_email(): void
     {
         $email = new Email('user@gmail.com');
 
@@ -66,7 +67,7 @@ class EmailTest extends TestCase
         $this->assertEquals('gmail.com', $email->getProvider());
     }
 
-    public function testDisposableEmail(): void
+    public function test_disposable_email(): void
     {
         $email = new Email('user@10minutemail.com');
 
@@ -78,7 +79,7 @@ class EmailTest extends TestCase
         $this->assertEquals(false, $email->isCorporate());
     }
 
-    public function testEmailWithSpecialCharacters(): void
+    public function test_email_with_special_characters(): void
     {
         $email = new Email('user.name+tag@example.com');
 
@@ -90,7 +91,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testEmailWithHyphens(): void
+    public function test_email_with_hyphens(): void
     {
         $email = new Email('user-name@example-domain.com');
 
@@ -102,7 +103,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testEmailWithUnderscores(): void
+    public function test_email_with_underscores(): void
     {
         $email = new Email('user_name@example.com');
 
@@ -114,7 +115,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testEmailWithNumbers(): void
+    public function test_email_with_numbers(): void
     {
         $email = new Email('user123@example123.com');
 
@@ -126,7 +127,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testEmailWithMultipleDots(): void
+    public function test_email_with_multiple_dots(): void
     {
         $email = new Email('user.name.last@example.com');
 
@@ -138,7 +139,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testEmailWithMultipleSubdomains(): void
+    public function test_email_with_multiple_subdomains(): void
     {
         $email = new Email('user@mail.sub.example.com');
 
@@ -150,7 +151,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasSubdomain());
     }
 
-    public function testEmailFormatted(): void
+    public function test_email_formatted(): void
     {
         $email = new Email('user@mail.example.com');
 
@@ -161,7 +162,7 @@ class EmailTest extends TestCase
         $this->assertEquals('mail', $email->getFormatted('subdomain'));
     }
 
-    public function testEmailNormalization(): void
+    public function test_email_normalization(): void
     {
         $email = new Email('  USER@EXAMPLE.COM  ');
 
@@ -169,7 +170,7 @@ class EmailTest extends TestCase
         $this->assertEquals('user@example.com', $email->normalize());
     }
 
-    public function testInvalidEmailEmpty(): void
+    public function test_invalid_email_empty(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Email address cannot be empty');
@@ -177,7 +178,7 @@ class EmailTest extends TestCase
         new Email('');
     }
 
-    public function testInvalidEmailNoAt(): void
+    public function test_invalid_email_no_at(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("'invalid-email' must be a valid email address");
@@ -185,7 +186,7 @@ class EmailTest extends TestCase
         new Email('invalid-email');
     }
 
-    public function testInvalidEmailMultipleAt(): void
+    public function test_invalid_email_multiple_at(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("'user@example@com' must be a valid email address");
@@ -193,7 +194,7 @@ class EmailTest extends TestCase
         new Email('user@example@com');
     }
 
-    public function testInvalidEmailNoLocal(): void
+    public function test_invalid_email_no_local(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("'@example.com' must be a valid email address");
@@ -201,7 +202,7 @@ class EmailTest extends TestCase
         new Email('@example.com');
     }
 
-    public function testInvalidEmailNoDomain(): void
+    public function test_invalid_email_no_domain(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("'user@' must be a valid email address");
@@ -209,28 +210,28 @@ class EmailTest extends TestCase
         new Email('user@');
     }
 
-    public function testInvalidEmailConsecutiveDots(): void
+    public function test_invalid_email_consecutive_dots(): void
     {
         $email = new Email('user..name@example.com');
 
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
-    public function testInvalidEmailStartsWithDot(): void
+    public function test_invalid_email_starts_with_dot(): void
     {
         $email = new Email('.user@example.com');
 
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
-    public function testInvalidEmailEndsWithDot(): void
+    public function test_invalid_email_ends_with_dot(): void
     {
         $email = new Email('user.@example.com');
 
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
-    public function testInvalidEmailLocalTooLong(): void
+    public function test_invalid_email_local_too_long(): void
     {
         $longLocal = str_repeat('a', 65); // 65 characters
         $email = new Email($longLocal.'@example.com');
@@ -238,7 +239,7 @@ class EmailTest extends TestCase
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
-    public function testInvalidEmailDomainTooLong(): void
+    public function test_invalid_email_domain_too_long(): void
     {
         $longDomain = str_repeat('a', 250).'.com'; // 254 characters
         $email = new Email('user@'.$longDomain);
@@ -246,14 +247,14 @@ class EmailTest extends TestCase
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainConsecutiveDots(): void
+    public function test_invalid_email_domain_consecutive_dots(): void
     {
         $email = new Email('user@example..com');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainConsecutiveHyphens(): void
+    public function test_invalid_email_domain_consecutive_hyphens(): void
     {
         $email = new Email('user@example--com.com');
 
@@ -261,56 +262,56 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainStartsWithDot(): void
+    public function test_invalid_email_domain_starts_with_dot(): void
     {
         $email = new Email('user@.example.com');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainEndsWithDot(): void
+    public function test_invalid_email_domain_ends_with_dot(): void
     {
         $email = new Email('user@example.com.');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainStartsWithHyphen(): void
+    public function test_invalid_email_domain_starts_with_hyphen(): void
     {
         $email = new Email('user@-example.com');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainEndsWithHyphen(): void
+    public function test_invalid_email_domain_ends_with_hyphen(): void
     {
         $email = new Email('user@example-.com');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainNoTLD(): void
+    public function test_invalid_email_domain_no_tld(): void
     {
         $email = new Email('user@example');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailDomainInvalidCharacters(): void
+    public function test_invalid_email_domain_invalid_characters(): void
     {
         $email = new Email('user@example!.com');
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
 
-    public function testInvalidEmailLocalInvalidCharacters(): void
+    public function test_invalid_email_local_invalid_characters(): void
     {
         $email = new Email('user!@example.com');
 
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
-    public function testFreeEmailProviders(): void
+    public function test_free_email_providers(): void
     {
         $freeProviders = [
             'gmail.com',
@@ -338,7 +339,7 @@ class EmailTest extends TestCase
         }
     }
 
-    public function testDisposableEmailProviders(): void
+    public function test_disposable_email_providers(): void
     {
         $disposableProviders = [
             '10minutemail.com',
@@ -361,7 +362,7 @@ class EmailTest extends TestCase
         }
     }
 
-    public function testCorporateEmailProviders(): void
+    public function test_corporate_email_providers(): void
     {
         $corporateProviders = [
             'company.com',

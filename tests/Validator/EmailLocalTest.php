@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utopia PHP Framework
  *
@@ -19,9 +20,9 @@ use Utopia\Emails\Validator\EmailLocal;
 
 class EmailLocalTest extends TestCase
 {
-    public function testValidEmailLocal(): void
+    public function test_valid_email_local(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals(true, $validator->isValid('test@example.com'));
         $this->assertEquals(true, $validator->isValid('user.name+tag@example.com'));
@@ -31,9 +32,9 @@ class EmailLocalTest extends TestCase
         $this->assertEquals(true, $validator->isValid('user.name.last@example.com'));
     }
 
-    public function testInvalidEmailLocal(): void
+    public function test_invalid_email_local(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals(false, $validator->isValid(''));
         $this->assertEquals(false, $validator->isValid('invalid-email'));
@@ -43,35 +44,35 @@ class EmailLocalTest extends TestCase
         $this->assertEquals(false, $validator->isValid('user!@example.com'));
     }
 
-    public function testNonStringInput(): void
+    public function test_non_string_input(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals(false, $validator->isValid(null));
         $this->assertEquals(false, $validator->isValid(123));
         $this->assertEquals(false, $validator->isValid([]));
-        $this->assertEquals(false, $validator->isValid(new \stdClass()));
+        $this->assertEquals(false, $validator->isValid(new \stdClass));
         $this->assertEquals(false, $validator->isValid(true));
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function testValidatorDescription(): void
+    public function test_validator_description(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals('Value must be a valid email address with a valid local part', $validator->getDescription());
     }
 
-    public function testValidatorType(): void
+    public function test_validator_type(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals('string', $validator->getType());
     }
 
-    public function testValidatorIsArray(): void
+    public function test_validator_is_array(): void
     {
-        $validator = new EmailLocal();
+        $validator = new EmailLocal;
 
         $this->assertEquals(false, $validator->isArray());
     }

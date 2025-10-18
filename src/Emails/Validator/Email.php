@@ -16,8 +16,6 @@ class Email extends Validator
      * Get Description
      *
      * Returns validator description
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -29,17 +27,17 @@ class Email extends Validator
      *
      * Validation will pass when $value is a valid email address
      *
-     * @param  mixed $value
-     * @return bool
+     * @param  mixed  $value
      */
     public function isValid($value): bool
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return false;
         }
 
         try {
             $email = new EmailParser($value);
+
             return $email->isValid();
         } catch (\Exception $e) {
             return false;
@@ -50,8 +48,6 @@ class Email extends Validator
      * Is array
      *
      * Function will return true if object is array.
-     *
-     * @return bool
      */
     public function isArray(): bool
     {
@@ -62,8 +58,6 @@ class Email extends Validator
      * Get Type
      *
      * Returns validator type.
-     *
-     * @return string
      */
     public function getType(): string
     {

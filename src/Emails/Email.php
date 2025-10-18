@@ -64,22 +64,22 @@ class Email
     public function __construct(string $email)
     {
         $this->email = \mb_strtolower(\trim($email));
-        
+
         if (empty($this->email)) {
-            throw new Exception("Email address cannot be empty");
+            throw new Exception('Email address cannot be empty');
         }
 
         $this->parts = \explode('@', $this->email);
 
         if (count($this->parts) !== 2) {
-            throw new Exception("'{$email}' must be a valid email address");
+            throw new Exception('{$email} must be a valid email address');
         }
 
         $this->local = $this->parts[0];
         $this->domain = $this->parts[1];
 
         if (empty($this->local) || empty($this->domain)) {
-            throw new Exception("'{$email}' must be a valid email address");
+            throw new Exception('{$email} must be a valid email address');
         }
     }
 
@@ -142,7 +142,7 @@ class Email
         }
 
         // Check for valid characters in local part
-        if (!preg_match('/^[a-zA-Z0-9._+-]+$/', $this->local)) {
+        if (! preg_match('/^[a-zA-Z0-9._+-]+$/', $this->local)) {
             return false;
         }
 
@@ -170,7 +170,7 @@ class Email
         }
 
         // Check for valid domain format using filter_var
-        if (!filter_var('test@' . $this->domain, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var('test@'.$this->domain, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
@@ -183,7 +183,7 @@ class Email
     public function isDisposable(): bool
     {
         if (self::$disposableDomains === null) {
-            self::$disposableDomains = include __DIR__ . '/../../data/disposable-domains.php';
+            self::$disposableDomains = include __DIR__.'/../../data/disposable-domains.php';
         }
 
         return in_array($this->domain, self::$disposableDomains);
@@ -195,7 +195,7 @@ class Email
     public function isFree(): bool
     {
         if (self::$freeDomains === null) {
-            self::$freeDomains = include __DIR__ . '/../../data/free-domains.php';
+            self::$freeDomains = include __DIR__.'/../../data/free-domains.php';
         }
 
         return in_array($this->domain, self::$freeDomains);
@@ -206,7 +206,7 @@ class Email
      */
     public function isCorporate(): bool
     {
-        return !$this->isFree() && !$this->isDisposable();
+        return ! $this->isFree() && ! $this->isDisposable();
     }
 
     /**
@@ -215,7 +215,7 @@ class Email
     public function getProvider(): string
     {
         $domainParts = explode('.', $this->domain);
-        
+
         if (count($domainParts) < 2) {
             return $this->domain;
         }
@@ -234,7 +234,7 @@ class Email
     public function getSubdomain(): string
     {
         $domainParts = explode('.', $this->domain);
-        
+
         if (count($domainParts) <= 2) {
             return '';
         }
@@ -247,7 +247,7 @@ class Email
      */
     public function hasSubdomain(): bool
     {
-        return !empty($this->getSubdomain());
+        return ! empty($this->getSubdomain());
     }
 
     /**

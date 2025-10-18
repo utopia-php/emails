@@ -16,8 +16,6 @@ class EmailNotDisposable extends Validator
      * Get Description
      *
      * Returns validator description
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -29,18 +27,18 @@ class EmailNotDisposable extends Validator
      *
      * Validation will pass when $value is a valid email address that is not disposable
      *
-     * @param  mixed $value
-     * @return bool
+     * @param  mixed  $value
      */
     public function isValid($value): bool
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return false;
         }
 
         try {
             $email = new Email($value);
-            return $email->isValid() && !$email->isDisposable();
+
+            return $email->isValid() && ! $email->isDisposable();
         } catch (\Exception $e) {
             return false;
         }
@@ -50,8 +48,6 @@ class EmailNotDisposable extends Validator
      * Is array
      *
      * Function will return true if object is array.
-     *
-     * @return bool
      */
     public function isArray(): bool
     {
@@ -62,12 +58,9 @@ class EmailNotDisposable extends Validator
      * Get Type
      *
      * Returns validator type.
-     *
-     * @return string
      */
     public function getType(): string
     {
         return self::TYPE_STRING;
     }
 }
-

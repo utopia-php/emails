@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utopia PHP Framework
  *
@@ -19,9 +20,9 @@ use Utopia\Emails\Validator\EmailDomain;
 
 class EmailDomainTest extends TestCase
 {
-    public function testValidEmailDomain(): void
+    public function test_valid_email_domain(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals(true, $validator->isValid('test@example.com'));
         $this->assertEquals(true, $validator->isValid('user@mail.example.com'));
@@ -30,9 +31,9 @@ class EmailDomainTest extends TestCase
         $this->assertEquals(true, $validator->isValid('user@example123.com'));
     }
 
-    public function testInvalidEmailDomain(): void
+    public function test_invalid_email_domain(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals(false, $validator->isValid(''));
         $this->assertEquals(false, $validator->isValid('invalid-email'));
@@ -47,35 +48,35 @@ class EmailDomainTest extends TestCase
         $this->assertEquals(false, $validator->isValid('user@example!.com'));
     }
 
-    public function testNonStringInput(): void
+    public function test_non_string_input(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals(false, $validator->isValid(null));
         $this->assertEquals(false, $validator->isValid(123));
         $this->assertEquals(false, $validator->isValid([]));
-        $this->assertEquals(false, $validator->isValid(new \stdClass()));
+        $this->assertEquals(false, $validator->isValid(new \stdClass));
         $this->assertEquals(false, $validator->isValid(true));
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function testValidatorDescription(): void
+    public function test_validator_description(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals('Value must be a valid email address with a valid domain', $validator->getDescription());
     }
 
-    public function testValidatorType(): void
+    public function test_validator_type(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals('string', $validator->getType());
     }
 
-    public function testValidatorIsArray(): void
+    public function test_validator_is_array(): void
     {
-        $validator = new EmailDomain();
+        $validator = new EmailDomain;
 
         $this->assertEquals(false, $validator->isArray());
     }

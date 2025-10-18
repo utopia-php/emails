@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utopia PHP Framework
  *
@@ -19,9 +20,9 @@ use Utopia\Emails\Validator\Email;
 
 class EmailTest extends TestCase
 {
-    public function testValidEmail(): void
+    public function test_valid_email(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals(true, $validator->isValid('test@example.com'));
         $this->assertEquals(true, $validator->isValid('user.name+tag@example.com'));
@@ -33,9 +34,9 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $validator->isValid('user@mail.sub.example.com'));
     }
 
-    public function testInvalidEmail(): void
+    public function test_invalid_email(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals(false, $validator->isValid(''));
         $this->assertEquals(false, $validator->isValid('invalid-email'));
@@ -58,35 +59,35 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $validator->isValid('user!@example.com'));
     }
 
-    public function testNonStringInput(): void
+    public function test_non_string_input(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals(false, $validator->isValid(null));
         $this->assertEquals(false, $validator->isValid(123));
         $this->assertEquals(false, $validator->isValid([]));
-        $this->assertEquals(false, $validator->isValid(new \stdClass()));
+        $this->assertEquals(false, $validator->isValid(new \stdClass));
         $this->assertEquals(false, $validator->isValid(true));
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function testValidatorDescription(): void
+    public function test_validator_description(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals('Value must be a valid email address', $validator->getDescription());
     }
 
-    public function testValidatorType(): void
+    public function test_validator_type(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals('string', $validator->getType());
     }
 
-    public function testValidatorIsArray(): void
+    public function test_validator_is_array(): void
     {
-        $validator = new Email();
+        $validator = new Email;
 
         $this->assertEquals(false, $validator->isArray());
     }
