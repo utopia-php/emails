@@ -689,10 +689,10 @@ function saveConfig(string $filename, array $domains, string $description): void
     $configContent = "<?php\n\n";
     $configContent .= "/**\n";
     $configContent .= " * {$description}\n";
-    $configContent .= " * \n";
+    $configContent .= " *\n";
     $configContent .= " * This file contains a list of known {$description}.\n";
     $configContent .= " * Last updated: {$lastUpdated}\n";
-    $configContent .= " * \n";
+    $configContent .= " *\n";
     $configContent .= " * Format: Indexed array of domain names\n";
     $configContent .= " */\n\n";
     $configContent .= "return [\n";
