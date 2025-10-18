@@ -215,7 +215,7 @@ class Email
         if ($this->isFree() && $this->isDisposable()) {
             return false; // It's free, not corporate
         }
-        
+
         return ! $this->isFree() && ! $this->isDisposable();
     }
 
