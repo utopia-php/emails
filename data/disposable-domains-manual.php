@@ -11,4 +11,7 @@
  */
 
 return [
+    'tempmail.org',
+    'throwaway.email',
+    '10minutemail.com',
 ];

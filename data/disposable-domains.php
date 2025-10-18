@@ -4,7 +4,7 @@
  * Disposable Email Domains
  *
  * This file contains a list of known Disposable Email Domains.
- * Last updated: 2025-10-18 21:53:41
+ * Last updated: 2025-10-18 22:03:31
  *
  * Format: Indexed array of domain names
  */
@@ -61642,6 +61642,7 @@ return [
     'tempmail.j78.org',
     'tempmail.net',
     'tempmail.ninja',
+    'tempmail.org',
     'tempmail.plus',
     'tempmail.pp.ua',
     'tempmail.pro',
@@ -62452,6 +62453,7 @@ return [
     'throopllc.com',
     'thrott.com',
     'throwam.com',
+    'throwaway.email',
     'throwaway.io',
     'throwawayemail.com',
     'throwawayemailaddress.com',

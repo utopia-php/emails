@@ -71,10 +71,10 @@ class EmailCorporateTest extends TestCase
         $this->assertEquals(false, $validator->isValid('user@maildrop.cc'));
         $this->assertEquals(false, $validator->isValid('user@sharklasers.com'));
         $this->assertEquals(false, $validator->isValid('user@test.com'));
-        // example.com is no longer considered disposable, so it's corporate
-        $this->assertEquals(true, $validator->isValid('user@example.com'));
-        $this->assertEquals(true, $validator->isValid('user@example.org'));
-        $this->assertEquals(true, $validator->isValid('user@example.net'));
+        // company.org is corporate
+        $this->assertEquals(true, $validator->isValid('user@company.org'));
+        $this->assertEquals(true, $validator->isValid('user@business.org'));
+        $this->assertEquals(true, $validator->isValid('user@enterprise.net'));
     }
 
     public function test_invalid_email_format(): void

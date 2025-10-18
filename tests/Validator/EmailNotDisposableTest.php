@@ -24,7 +24,7 @@ class EmailNotDisposableTest extends TestCase
     {
         $validator = new EmailNotDisposable;
 
-        $this->assertEquals(true, $validator->isValid('test@example.com'));
+        $this->assertEquals(true, $validator->isValid('test@company.org'));
         $this->assertEquals(true, $validator->isValid('user@gmail.com'));
         $this->assertEquals(true, $validator->isValid('user@yahoo.com'));
         $this->assertEquals(true, $validator->isValid('user@company.com'));
@@ -46,10 +46,10 @@ class EmailNotDisposableTest extends TestCase
         $this->assertEquals(false, $validator->isValid('user@maildrop.cc'));
         $this->assertEquals(false, $validator->isValid('user@sharklasers.com'));
         $this->assertEquals(false, $validator->isValid('user@test.com'));
-        // example.com is no longer considered disposable
-        $this->assertEquals(true, $validator->isValid('user@example.com'));
-        $this->assertEquals(true, $validator->isValid('user@example.org'));
-        $this->assertEquals(true, $validator->isValid('user@example.net'));
+        // company.org is not disposable
+        $this->assertEquals(true, $validator->isValid('user@company.org'));
+        $this->assertEquals(true, $validator->isValid('user@business.org'));
+        $this->assertEquals(true, $validator->isValid('user@enterprise.net'));
     }
 
     public function test_invalid_email_format(): void

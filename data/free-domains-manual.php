@@ -13,4 +13,6 @@
 return [
     'walla.co.il',
     'walla.com',
+    'tutanota.com',
+    'hey.com',
 ];

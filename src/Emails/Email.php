@@ -72,14 +72,14 @@ class Email
         $this->parts = \explode('@', $this->email);
 
         if (count($this->parts) !== 2) {
-            throw new Exception('{$email} must be a valid email address');
+            throw new Exception("'{$email}' must be a valid email address");
         }
 
         $this->local = $this->parts[0];
         $this->domain = $this->parts[1];
 
         if (empty($this->local) || empty($this->domain)) {
-            throw new Exception('{$email} must be a valid email address');
+            throw new Exception("'{$email}' must be a valid email address");
         }
     }
 
@@ -198,6 +198,11 @@ class Email
             self::$freeDomains = include __DIR__.'/../../data/free-domains.php';
         }
 
+        // If domain is both free and disposable, prioritize disposable classification
+        if (in_array($this->domain, self::$freeDomains) && $this->isDisposable()) {
+            return false; // It's disposable, not free
+        }
+
         return in_array($this->domain, self::$freeDomains);
     }
 
@@ -206,6 +211,11 @@ class Email
      */
     public function isCorporate(): bool
     {
+        // If domain is both free and disposable, prioritize free classification
+        if ($this->isFree() && $this->isDisposable()) {
+            return false; // It's free, not corporate
+        }
+        
         return ! $this->isFree() && ! $this->isDisposable();
     }
 

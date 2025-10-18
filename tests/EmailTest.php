@@ -23,12 +23,12 @@ class EmailTest extends TestCase
 {
     public function test_valid_email(): void
     {
-        $email = new Email('test@example.com');
+        $email = new Email('test@company.org');
 
-        $this->assertEquals('test@example.com', $email->get());
+        $this->assertEquals('test@company.org', $email->get());
         $this->assertEquals('test', $email->getLocal());
-        $this->assertEquals('example.com', $email->getDomain());
-        $this->assertEquals('example.com', $email->getDomainOnly());
+        $this->assertEquals('company.org', $email->getDomain());
+        $this->assertEquals('company.org', $email->getDomainOnly());
         $this->assertEquals('test', $email->getLocalOnly());
         $this->assertEquals(true, $email->isValid());
         $this->assertEquals(true, $email->hasValidLocal());
@@ -36,20 +36,20 @@ class EmailTest extends TestCase
         $this->assertEquals(false, $email->isDisposable());
         $this->assertEquals(false, $email->isFree());
         $this->assertEquals(true, $email->isCorporate());
-        $this->assertEquals('example.com', $email->getProvider());
+        $this->assertEquals('company.org', $email->getProvider());
         $this->assertEquals('', $email->getSubdomain());
         $this->assertEquals(false, $email->hasSubdomain());
-        $this->assertEquals('test@example.com', $email->normalize());
+        $this->assertEquals('test@company.org', $email->normalize());
     }
 
     public function test_email_with_subdomain(): void
     {
-        $email = new Email('user@mail.example.com');
+        $email = new Email('user@mail.company.org');
 
-        $this->assertEquals('user@mail.example.com', $email->get());
+        $this->assertEquals('user@mail.company.org', $email->get());
         $this->assertEquals('user', $email->getLocal());
-        $this->assertEquals('mail.example.com', $email->getDomain());
-        $this->assertEquals('example.com', $email->getProvider());
+        $this->assertEquals('mail.company.org', $email->getDomain());
+        $this->assertEquals('company.org', $email->getProvider());
         $this->assertEquals('mail', $email->getSubdomain());
         $this->assertEquals(true, $email->hasSubdomain());
     }
@@ -81,11 +81,11 @@ class EmailTest extends TestCase
 
     public function test_email_with_special_characters(): void
     {
-        $email = new Email('user.name+tag@example.com');
+        $email = new Email('user.name+tag@company.org');
 
-        $this->assertEquals('user.name+tag@example.com', $email->get());
+        $this->assertEquals('user.name+tag@company.org', $email->get());
         $this->assertEquals('user.name+tag', $email->getLocal());
-        $this->assertEquals('example.com', $email->getDomain());
+        $this->assertEquals('company.org', $email->getDomain());
         $this->assertEquals(true, $email->isValid());
         $this->assertEquals(true, $email->hasValidLocal());
         $this->assertEquals(true, $email->hasValidDomain());
@@ -105,11 +105,11 @@ class EmailTest extends TestCase
 
     public function test_email_with_underscores(): void
     {
-        $email = new Email('user_name@example.com');
+        $email = new Email('user_name@company.org');
 
-        $this->assertEquals('user_name@example.com', $email->get());
+        $this->assertEquals('user_name@company.org', $email->get());
         $this->assertEquals('user_name', $email->getLocal());
-        $this->assertEquals('example.com', $email->getDomain());
+        $this->assertEquals('company.org', $email->getDomain());
         $this->assertEquals(true, $email->isValid());
         $this->assertEquals(true, $email->hasValidLocal());
         $this->assertEquals(true, $email->hasValidDomain());
@@ -129,11 +129,11 @@ class EmailTest extends TestCase
 
     public function test_email_with_multiple_dots(): void
     {
-        $email = new Email('user.name.last@example.com');
+        $email = new Email('user.name.last@company.org');
 
-        $this->assertEquals('user.name.last@example.com', $email->get());
+        $this->assertEquals('user.name.last@company.org', $email->get());
         $this->assertEquals('user.name.last', $email->getLocal());
-        $this->assertEquals('example.com', $email->getDomain());
+        $this->assertEquals('company.org', $email->getDomain());
         $this->assertEquals(true, $email->isValid());
         $this->assertEquals(true, $email->hasValidLocal());
         $this->assertEquals(true, $email->hasValidDomain());
@@ -141,33 +141,33 @@ class EmailTest extends TestCase
 
     public function test_email_with_multiple_subdomains(): void
     {
-        $email = new Email('user@mail.sub.example.com');
+        $email = new Email('user@mail.sub.company.org');
 
-        $this->assertEquals('user@mail.sub.example.com', $email->get());
+        $this->assertEquals('user@mail.sub.company.org', $email->get());
         $this->assertEquals('user', $email->getLocal());
-        $this->assertEquals('mail.sub.example.com', $email->getDomain());
-        $this->assertEquals('example.com', $email->getProvider());
+        $this->assertEquals('mail.sub.company.org', $email->getDomain());
+        $this->assertEquals('company.org', $email->getProvider());
         $this->assertEquals('mail.sub', $email->getSubdomain());
         $this->assertEquals(true, $email->hasSubdomain());
     }
 
     public function test_email_formatted(): void
     {
-        $email = new Email('user@mail.example.com');
+        $email = new Email('user@mail.company.org');
 
-        $this->assertEquals('user@mail.example.com', $email->getFormatted('full'));
+        $this->assertEquals('user@mail.company.org', $email->getFormatted('full'));
         $this->assertEquals('user', $email->getFormatted('local'));
-        $this->assertEquals('mail.example.com', $email->getFormatted('domain'));
-        $this->assertEquals('example.com', $email->getFormatted('provider'));
+        $this->assertEquals('mail.company.org', $email->getFormatted('domain'));
+        $this->assertEquals('company.org', $email->getFormatted('provider'));
         $this->assertEquals('mail', $email->getFormatted('subdomain'));
     }
 
     public function test_email_normalization(): void
     {
-        $email = new Email('  USER@EXAMPLE.COM  ');
+        $email = new Email('  USER@COMPANY.ORG  ');
 
-        $this->assertEquals('user@example.com', $email->get());
-        $this->assertEquals('user@example.com', $email->normalize());
+        $this->assertEquals('user@company.org', $email->get());
+        $this->assertEquals('user@company.org', $email->normalize());
     }
 
     public function test_invalid_email_empty(): void
