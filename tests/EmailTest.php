@@ -172,7 +172,7 @@ class EmailTest extends TestCase
     public function testInvalidEmailEmpty(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Email address cannot be empty");
+        $this->expectExceptionMessage('Email address cannot be empty');
 
         new Email('');
     }
@@ -233,15 +233,15 @@ class EmailTest extends TestCase
     public function testInvalidEmailLocalTooLong(): void
     {
         $longLocal = str_repeat('a', 65); // 65 characters
-        $email = new Email($longLocal . '@example.com');
+        $email = new Email($longLocal.'@example.com');
 
         $this->assertEquals(false, $email->hasValidLocal());
     }
 
     public function testInvalidEmailDomainTooLong(): void
     {
-        $longDomain = str_repeat('a', 250) . '.com'; // 254 characters
-        $email = new Email('user@' . $longDomain);
+        $longDomain = str_repeat('a', 250).'.com'; // 254 characters
+        $email = new Email('user@'.$longDomain);
 
         $this->assertEquals(false, $email->hasValidDomain());
     }
@@ -328,11 +328,11 @@ class EmailTest extends TestCase
             'web.de',
             'tutanota.com',
             'fastmail.com',
-            'hey.com'
+            'hey.com',
         ];
 
         foreach ($freeProviders as $provider) {
-            $email = new Email('user@' . $provider);
+            $email = new Email('user@'.$provider);
             $this->assertEquals(true, $email->isFree(), "Failed for provider: {$provider}");
             $this->assertEquals(false, $email->isCorporate(), "Failed for provider: {$provider}");
         }
@@ -351,11 +351,11 @@ class EmailTest extends TestCase
             'getnada.com',
             'maildrop.cc',
             'sharklasers.com',
-            'test.com'
+            'test.com',
         ];
 
         foreach ($disposableProviders as $provider) {
-            $email = new Email('user@' . $provider);
+            $email = new Email('user@'.$provider);
             $this->assertEquals(true, $email->isDisposable(), "Failed for provider: {$provider}");
             $this->assertEquals(false, $email->isCorporate(), "Failed for provider: {$provider}");
         }
@@ -371,11 +371,11 @@ class EmailTest extends TestCase
             'organization.org',
             'firm.com',
             'office.net',
-            'work.org'
+            'work.org',
         ];
 
         foreach ($corporateProviders as $provider) {
-            $email = new Email('user@' . $provider);
+            $email = new Email('user@'.$provider);
             $this->assertEquals(false, $email->isFree(), "Failed for provider: {$provider}");
             $this->assertEquals(false, $email->isDisposable(), "Failed for provider: {$provider}");
             $this->assertEquals(true, $email->isCorporate(), "Failed for provider: {$provider}");

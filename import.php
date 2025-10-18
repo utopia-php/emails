@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 use Utopia\CLI\CLI;
 use Utopia\CLI\Console;
 use Utopia\Validator\Boolean;
 use Utopia\Validator\Text;
 
-const CONFIG_DIR = __DIR__ . '/data';
+const CONFIG_DIR = __DIR__.'/data';
 
 /**
  * Source configurations for disposable email domains
@@ -16,33 +16,33 @@ const DISPOSABLE_SOURCES = [
     'manual' => [
         'name' => 'Manual Disposable Email Domains',
         'url' => null,
-        'configFile' => CONFIG_DIR . '/disposable-domains-manual.php'
+        'configFile' => CONFIG_DIR.'/disposable-domains-manual.php',
     ],
     'martenson' => [
         'name' => 'Martenson Disposable Email Domains',
         'url' => 'https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf',
-        'configFile' => CONFIG_DIR . '/disposable-domains-martenson.php'
+        'configFile' => CONFIG_DIR.'/disposable-domains-martenson.php',
     ],
     'disposable' => [
         'name' => 'Disposable Email Domains',
         'url' => 'https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt',
-        'configFile' => CONFIG_DIR . '/disposable-domains-disposable.php'
+        'configFile' => CONFIG_DIR.'/disposable-domains-disposable.php',
     ],
     'wesbos' => [
         'name' => 'Wes Bos Burner Email Providers',
         'url' => 'https://raw.githubusercontent.com/wesbos/burner-email-providers/refs/heads/master/emails.txt',
-        'configFile' => CONFIG_DIR . '/disposable-domains-wesbos.php'
+        'configFile' => CONFIG_DIR.'/disposable-domains-wesbos.php',
     ],
     'fakefilter' => [
         'name' => '7c FakeFilter Domains',
         'url' => 'https://raw.githubusercontent.com/7c/fakefilter/main/txt/data.txt',
-        'configFile' => CONFIG_DIR . '/disposable-domains-fakefilter.php'
+        'configFile' => CONFIG_DIR.'/disposable-domains-fakefilter.php',
     ],
     'adamloving' => [
         'name' => 'Adam Loving Temporary Email Domains',
         'url' => 'https://gist.githubusercontent.com/adamloving/4401361/raw/e81212c3caecb54b87ced6392e0a0de2b6466287/temporary-email-address-domains',
-        'configFile' => CONFIG_DIR . '/disposable-domains-adamloving.php'
-    ]
+        'configFile' => CONFIG_DIR.'/disposable-domains-adamloving.php',
+    ],
 ];
 
 /**
@@ -52,13 +52,13 @@ const FREE_SOURCES = [
     'manual' => [
         'name' => 'Manual Free Email Domains',
         'url' => null,
-        'configFile' => CONFIG_DIR . '/free-domains-manual.php'
+        'configFile' => CONFIG_DIR.'/free-domains-manual.php',
     ],
     'kikobeats' => [
         'name' => 'Kikobeats Free Email Domains',
         'url' => 'https://raw.githubusercontent.com/Kikobeats/free-email-domains/master/domains.json',
-        'configFile' => CONFIG_DIR . '/free-domains-kikobeats.php'
-    ]
+        'configFile' => CONFIG_DIR.'/free-domains-kikobeats.php',
+    ],
 ];
 
 /**
@@ -86,18 +86,18 @@ function updateDisposableDomains(bool $commit, bool $force, string $source): voi
             Console::exit(1);
         }
 
-        Console::info('Fetched ' . count($allDomains) . ' disposable email domains from all sources');
+        Console::info('Fetched '.count($allDomains).' disposable email domains from all sources');
 
         showDomainStatistics($allDomains);
 
-        if (!$force && isConfigUpToDate($currentDomains, $allDomains)) {
+        if (! $force && isConfigUpToDate($currentDomains, $allDomains)) {
             Console::success('Disposable email domains are already up to date');
             Console::exit(0);
         }
 
         Console::info('Changes detected:');
-        Console::info('- Previous domains count: ' . count($currentDomains));
-        Console::info('- New domains count: ' . count($allDomains));
+        Console::info('- Previous domains count: '.count($currentDomains));
+        Console::info('- New domains count: '.count($allDomains));
 
         if ($commit) {
             saveConfig('disposable-domains.php', $allDomains, 'Disposable Email Domains');
@@ -107,9 +107,8 @@ function updateDisposableDomains(bool $commit, bool $force, string $source): voi
             Console::info('Preview of changes:');
             showPreview($currentDomains, $allDomains);
         }
-
     } catch (\Throwable $e) {
-        Console::error('Error updating disposable email domains: ' . $e->getMessage());
+        Console::error('Error updating disposable email domains: '.$e->getMessage());
         Console::exit(1);
     }
 }
@@ -139,18 +138,18 @@ function updateFreeDomains(bool $commit, bool $force, string $source): void
             Console::exit(1);
         }
 
-        Console::info('Fetched ' . count($allDomains) . ' free email domains from all sources');
+        Console::info('Fetched '.count($allDomains).' free email domains from all sources');
 
         showDomainStatistics($allDomains);
 
-        if (!$force && isConfigUpToDate($currentDomains, $allDomains)) {
+        if (! $force && isConfigUpToDate($currentDomains, $allDomains)) {
             Console::success('Free email domains are already up to date');
             Console::exit(0);
         }
 
         Console::info('Changes detected:');
-        Console::info('- Previous domains count: ' . count($currentDomains));
-        Console::info('- New domains count: ' . count($allDomains));
+        Console::info('- Previous domains count: '.count($currentDomains));
+        Console::info('- New domains count: '.count($allDomains));
 
         if ($commit) {
             saveConfig('free-domains.php', $allDomains, 'Free Email Domains');
@@ -160,9 +159,8 @@ function updateFreeDomains(bool $commit, bool $force, string $source): void
             Console::info('Preview of changes:');
             showPreview($currentDomains, $allDomains);
         }
-
     } catch (\Throwable $e) {
-        Console::error('Error updating free email domains: ' . $e->getMessage());
+        Console::error('Error updating free email domains: '.$e->getMessage());
         Console::exit(1);
     }
 }
@@ -178,16 +176,15 @@ function updateAllDomains(bool $commit, bool $force): void
     try {
         // Update disposable domains
         updateDisposableDomains($commit, $force, '');
-        
+
         Console::info('');
-        
+
         // Update free domains
         updateFreeDomains($commit, $force, '');
 
         Console::success('Successfully updated all email domains');
-
     } catch (\Throwable $e) {
-        Console::error('Error updating all email domains: ' . $e->getMessage());
+        Console::error('Error updating all email domains: '.$e->getMessage());
         Console::exit(1);
     }
 }
@@ -204,23 +201,22 @@ function showStats(): void
         $freeDomains = loadCurrentConfig('free-domains.php');
 
         Console::info('Current Domain Statistics:');
-        Console::info('├─ Disposable domains: ' . count($disposableDomains));
-        Console::info('└─ Free domains: ' . count($freeDomains));
+        Console::info('├─ Disposable domains: '.count($disposableDomains));
+        Console::info('└─ Free domains: '.count($freeDomains));
 
-        if (!empty($disposableDomains)) {
+        if (! empty($disposableDomains)) {
             Console::info('');
             Console::info('Disposable Domains Analysis:');
             showDomainStatistics($disposableDomains);
         }
 
-        if (!empty($freeDomains)) {
+        if (! empty($freeDomains)) {
             Console::info('');
             Console::info('Free Domains Analysis:');
             showDomainStatistics($freeDomains);
         }
-
     } catch (\Throwable $e) {
-        Console::error('Error showing statistics: ' . $e->getMessage());
+        Console::error('Error showing statistics: '.$e->getMessage());
         Console::exit(1);
     }
 }
@@ -250,9 +246,9 @@ function fetchAllSources(array $sources, string $type): array
                 $allDomains[$domain] = true; // Use associative array to avoid duplicates
             }
 
-            Console::info("✓ Fetched " . count($domains) . " domains from {$sourceConfig['name']}");
+            Console::info('✓ Fetched '.count($domains)." domains from {$sourceConfig['name']}");
         } catch (\Exception $e) {
-            Console::warning("⚠ Failed to fetch from {$sourceConfig['name']}: " . $e->getMessage());
+            Console::warning("⚠ Failed to fetch from {$sourceConfig['name']}: ".$e->getMessage());
             // Continue with other sources even if one fails
         }
     }
@@ -264,7 +260,7 @@ function fetchAllSources(array $sources, string $type): array
     $duplicatesRemoved = $totalFetched - count($uniqueDomains);
     Console::info("Total domains fetched: {$totalFetched}");
     Console::info("Duplicates removed: {$duplicatesRemoved}");
-    Console::info("Total unique domains after merging all sources: " . count($uniqueDomains));
+    Console::info('Total unique domains after merging all sources: '.count($uniqueDomains));
 
     return $uniqueDomains;
 }
@@ -319,13 +315,12 @@ function fetchMartensonDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -366,13 +361,12 @@ function fetchDisposableDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -380,7 +374,7 @@ function fetchDisposableDomains(array $sourceConfig): array
     $valid = 0;
 
     $domainList = preg_split('/\s+/', trim($content));
-    
+
     foreach ($domainList as $domain) {
         $domain = trim($domain);
         $processed++;
@@ -414,13 +408,12 @@ function fetchWesbosDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -428,7 +421,7 @@ function fetchWesbosDomains(array $sourceConfig): array
     $valid = 0;
 
     $domainList = preg_split('/\s+/', trim($content));
-    
+
     foreach ($domainList as $domain) {
         $domain = trim($domain);
         $processed++;
@@ -462,13 +455,12 @@ function fetchFakeFilterDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -509,13 +501,12 @@ function fetchAdamLovingDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -523,7 +514,7 @@ function fetchAdamLovingDomains(array $sourceConfig): array
     $valid = 0;
 
     $domainList = preg_split('/\s+/', trim($content));
-    
+
     foreach ($domainList as $domain) {
         $domain = trim($domain);
         $processed++;
@@ -548,13 +539,14 @@ function fetchAdamLovingDomains(array $sourceConfig): array
  */
 function loadManualDisposableDomains(array $sourceConfig): array
 {
-    if (!file_exists($sourceConfig['configFile'])) {
-        Console::info("  Manual config file not found, creating empty list");
+    if (! file_exists($sourceConfig['configFile'])) {
+        Console::info('  Manual config file not found, creating empty list');
+
         return [];
     }
 
     $domains = include $sourceConfig['configFile'];
-    Console::info("  Loaded " . count($domains) . " domains from manual config");
+    Console::info('  Loaded '.count($domains).' domains from manual config');
 
     return $domains;
 }
@@ -573,13 +565,12 @@ function fetchKikobeatsDomains(array $sourceConfig): array
         );
 
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('HTTP ' . $response->getStatusCode());
+            throw new \Exception('HTTP '.$response->getStatusCode());
         }
 
         $content = $response->getBody();
-
     } catch (\Exception $e) {
-        throw new \Exception('Network error: ' . $e->getMessage());
+        throw new \Exception('Network error: '.$e->getMessage());
     }
 
     $domains = [];
@@ -588,12 +579,12 @@ function fetchKikobeatsDomains(array $sourceConfig): array
 
     // Parse JSON content
     $jsonData = json_decode($content, true);
-    
+
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new \Exception('Invalid JSON response: ' . json_last_error_msg());
+        throw new \Exception('Invalid JSON response: '.json_last_error_msg());
     }
 
-    if (!is_array($jsonData)) {
+    if (! is_array($jsonData)) {
         throw new \Exception('Expected array in JSON response');
     }
 
@@ -621,13 +612,14 @@ function fetchKikobeatsDomains(array $sourceConfig): array
  */
 function loadManualFreeDomains(array $sourceConfig): array
 {
-    if (!file_exists($sourceConfig['configFile'])) {
-        Console::info("  Manual config file not found, creating empty list");
+    if (! file_exists($sourceConfig['configFile'])) {
+        Console::info('  Manual config file not found, creating empty list');
+
         return [];
     }
 
     $domains = include $sourceConfig['configFile'];
-    Console::info("  Loaded " . count($domains) . " domains from manual config");
+    Console::info('  Loaded '.count($domains).' domains from manual config');
 
     return $domains;
 }
@@ -656,7 +648,6 @@ function isValidDomain(string $domain): bool
         }
 
         return true;
-
     } catch (\Exception $e) {
         return false;
     }
@@ -667,9 +658,9 @@ function isValidDomain(string $domain): bool
  */
 function loadCurrentConfig(string $filename): array
 {
-    $filepath = CONFIG_DIR . '/' . $filename;
-    
-    if (!file_exists($filepath)) {
+    $filepath = CONFIG_DIR.'/'.$filename;
+
+    if (! file_exists($filepath)) {
         return [];
     }
 
@@ -689,7 +680,7 @@ function isConfigUpToDate(array $currentDomains, array $newDomains): bool
  */
 function saveConfig(string $filename, array $domains, string $description): void
 {
-    $configFile = CONFIG_DIR . '/' . $filename;
+    $configFile = CONFIG_DIR.'/'.$filename;
     $lastUpdated = date('Y-m-d H:i:s');
 
     // Sort domains for consistent output
@@ -716,7 +707,7 @@ function saveConfig(string $filename, array $domains, string $description): void
     $configContent .= "];\n";
 
     // Ensure directory exists
-    if (!is_dir(dirname($configFile))) {
+    if (! is_dir(dirname($configFile))) {
         mkdir(dirname($configFile), 0755, true);
     }
 
@@ -739,7 +730,7 @@ function saveConfig(string $filename, array $domains, string $description): void
 function validateGeneratedPhp(string $filepath, array $expectedDomains): void
 {
     // Check if file exists and is readable
-    if (!file_exists($filepath) || !is_readable($filepath)) {
+    if (! file_exists($filepath) || ! is_readable($filepath)) {
         throw new \Exception("Generated file is not readable: {$filepath}");
     }
 
@@ -751,11 +742,11 @@ function validateGeneratedPhp(string $filepath, array $expectedDomains): void
     // Try to include the file to check for syntax errors
     $oldErrorReporting = error_reporting(E_ALL);
     $oldDisplayErrors = ini_set('display_errors', 0);
-    
+
     ob_start();
     $included = include $filepath;
     $output = ob_get_clean();
-    
+
     error_reporting($oldErrorReporting);
     ini_set('display_errors', $oldDisplayErrors);
 
@@ -764,7 +755,7 @@ function validateGeneratedPhp(string $filepath, array $expectedDomains): void
     }
 
     // Verify the included data is an array
-    if (!is_array($included)) {
+    if (! is_array($included)) {
         throw new \Exception("Generated file does not return an array: {$filepath}");
     }
 
@@ -779,7 +770,7 @@ function validateGeneratedPhp(string $filepath, array $expectedDomains): void
     }
 
     // Check for any output (should be none for a clean PHP file)
-    if (!empty($output)) {
+    if (! empty($output)) {
         throw new \Exception("Generated file produces unexpected output: {$filepath}");
     }
 }
@@ -823,10 +814,10 @@ function showDomainStatistics(array $domains): void
     $topTlds = array_slice($tldStats, 0, 10, true);
 
     Console::info('Domain Statistics:');
-    Console::info('├─ Known domains: ' . $knownDomains . ' (' . round(($knownDomains / count($domains)) * 100, 1) . '%)');
-    Console::info('├─ ICANN domains: ' . $icannDomains . ' (' . round(($icannDomains / count($domains)) * 100, 1) . '%)');
-    Console::info('├─ Private domains: ' . $privateDomains . ' (' . round(($privateDomains / count($domains)) * 100, 1) . '%)');
-    Console::info('└─ Unknown domains: ' . $unknownDomains . ' (' . round(($unknownDomains / count($domains)) * 100, 1) . '%)');
+    Console::info('├─ Known domains: '.$knownDomains.' ('.round(($knownDomains / count($domains)) * 100, 1).'%)');
+    Console::info('├─ ICANN domains: '.$icannDomains.' ('.round(($icannDomains / count($domains)) * 100, 1).'%)');
+    Console::info('├─ Private domains: '.$privateDomains.' ('.round(($privateDomains / count($domains)) * 100, 1).'%)');
+    Console::info('└─ Unknown domains: '.$unknownDomains.' ('.round(($unknownDomains / count($domains)) * 100, 1).'%)');
 
     Console::info('Top 10 TLDs:');
     foreach ($topTlds as $tld => $count) {
@@ -842,23 +833,23 @@ function showPreview(array $currentDomains, array $newDomains): void
     $added = array_diff($newDomains, $currentDomains);
     $removed = array_diff($currentDomains, $newDomains);
 
-    if (!empty($added)) {
-        Console::info('Domains to be added (' . count($added) . '):');
+    if (! empty($added)) {
+        Console::info('Domains to be added ('.count($added).'):');
         foreach (array_slice($added, 0, 10) as $domain) {
             Console::info("  ├─ + {$domain}");
         }
         if (count($added) > 10) {
-            Console::info('  └─ ... and ' . (count($added) - 10) . ' more');
+            Console::info('  └─ ... and '.(count($added) - 10).' more');
         }
     }
 
-    if (!empty($removed)) {
-        Console::info('Domains to be removed (' . count($removed) . '):');
+    if (! empty($removed)) {
+        Console::info('Domains to be removed ('.count($removed).'):');
         foreach (array_slice($removed, 0, 10) as $domain) {
             Console::info("  ├─ - {$domain}");
         }
         if (count($removed) > 10) {
-            Console::info('  └─ ... and ' . (count($removed) - 10) . ' more');
+            Console::info('  └─ ... and '.(count($removed) - 10).' more');
         }
     }
 }
@@ -873,7 +864,7 @@ $cli
     ->param('commit', false, new Boolean(true), 'If set will commit changes to config file. Default is false.', true)
     ->param('force', false, new Boolean(true), 'Force update even if no changes detected. Default is false.', true)
     ->param('source', '', new Text(100), 'Specific source to update (optional). Leave empty to update all sources.', true)
-    ->action(function(bool $commit, bool $force, string $source) {
+    ->action(function (bool $commit, bool $force, string $source) {
         updateDisposableDomains($commit, $force, $source);
     });
 
@@ -884,7 +875,7 @@ $cli
     ->param('commit', false, new Boolean(true), 'If set will commit changes to config file. Default is false.', true)
     ->param('force', false, new Boolean(true), 'Force update even if no changes detected. Default is false.', true)
     ->param('source', '', new Text(100), 'Specific source to update (optional). Leave empty to update all sources.', true)
-    ->action(function(bool $commit, bool $force, string $source) {
+    ->action(function (bool $commit, bool $force, string $source) {
         updateFreeDomains($commit, $force, $source);
     });
 
@@ -894,7 +885,7 @@ $cli
     ->desc('Update both disposable and free email domains from all sources')
     ->param('commit', false, new Boolean(true), 'If set will commit changes to config file. Default is false.', true)
     ->param('force', false, new Boolean(true), 'Force update even if no changes detected. Default is false.', true)
-    ->action(function(bool $commit, bool $force) {
+    ->action(function (bool $commit, bool $force) {
         updateAllDomains($commit, $force);
     });
 
@@ -902,7 +893,7 @@ $cli
 $cli
     ->task('stats')
     ->desc('Show statistics about current domain lists')
-    ->action(function() {
+    ->action(function () {
         showStats();
     });
 

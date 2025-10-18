@@ -76,4 +76,3 @@ class EmailLocalTest extends TestCase
         $this->assertEquals(false, $validator->isArray());
     }
 }
-
