@@ -11,4 +11,6 @@
  */
 
 return [
+    'walla.co.il',
+    'walla.com',
 ];

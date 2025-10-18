@@ -4,7 +4,7 @@
  * Disposable Email Domains
  * 
  * This file contains a list of known Disposable Email Domains.
- * Last updated: 2025-10-18 21:32:46
+ * Last updated: 2025-10-18 21:39:42
  * 
  * Format: Indexed array of domain names
  */
@@ -21214,7 +21214,6 @@ return [
     'elcajonrentals.com',
     'elcarin.store',
     'elchato.com',
-    'eldad.com',
     'elderflame.xyz',
     'eldobhato-level.hu',
     'eldoradoschool.org',

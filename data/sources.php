@@ -56,6 +56,12 @@ return [
             'enabled' => true,
             'description' => 'Manually managed free email domains',
             'configFile' => 'free-domains-manual.php'
+        ],
+        'kikobeats' => [
+            'name' => 'Kikobeats Free Email Domains',
+            'url' => 'https://raw.githubusercontent.com/Kikobeats/free-email-domains/master/domains.json',
+            'enabled' => true,
+            'description' => 'Free email domains from Kikobeats repository'
         ]
     ]
 ];

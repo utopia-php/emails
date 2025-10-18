@@ -53,6 +53,11 @@ const FREE_SOURCES = [
         'name' => 'Manual Free Email Domains',
         'url' => null,
         'configFile' => CONFIG_DIR . '/free-domains-manual.php'
+    ],
+    'kikobeats' => [
+        'name' => 'Kikobeats Free Email Domains',
+        'url' => 'https://raw.githubusercontent.com/Kikobeats/free-email-domains/master/domains.json',
+        'configFile' => CONFIG_DIR . '/free-domains-kikobeats.php'
     ]
 ];
 
@@ -290,6 +295,8 @@ function fetchSource(string $sourceKey, array $sourceConfig, string $type): arra
         switch ($sourceKey) {
             case 'manual':
                 return loadManualFreeDomains($sourceConfig);
+            case 'kikobeats':
+                return fetchKikobeatsDomains($sourceConfig);
             default:
                 throw new \Exception("Unknown free source: {$sourceKey}");
         }
@@ -548,6 +555,63 @@ function loadManualDisposableDomains(array $sourceConfig): array
 
     $domains = include $sourceConfig['configFile'];
     Console::info("  Loaded " . count($domains) . " domains from manual config");
+
+    return $domains;
+}
+
+/**
+ * Fetch domains from Kikobeats repository
+ */
+function fetchKikobeatsDomains(array $sourceConfig): array
+{
+    try {
+        $client = new \Utopia\Fetch\Client();
+
+        $response = $client->fetch(
+            url: $sourceConfig['url'],
+            method: \Utopia\Fetch\Client::METHOD_GET
+        );
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception('HTTP ' . $response->getStatusCode());
+        }
+
+        $content = $response->getBody();
+
+    } catch (\Exception $e) {
+        throw new \Exception('Network error: ' . $e->getMessage());
+    }
+
+    $domains = [];
+    $processed = 0;
+    $valid = 0;
+
+    // Parse JSON content
+    $jsonData = json_decode($content, true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new \Exception('Invalid JSON response: ' . json_last_error_msg());
+    }
+
+    if (!is_array($jsonData)) {
+        throw new \Exception('Expected array in JSON response');
+    }
+
+    foreach ($jsonData as $domain) {
+        $domain = trim($domain);
+        $processed++;
+
+        if (empty($domain)) {
+            continue;
+        }
+
+        if (isValidDomain($domain)) {
+            $domains[] = strtolower($domain);
+            $valid++;
+        }
+    }
+
+    Console::info("  Processed {$processed} domains, found {$valid} valid domains");
 
     return $domains;
 }
