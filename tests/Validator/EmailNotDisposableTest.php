@@ -1,0 +1,97 @@
+<?php
+/**
+ * Utopia PHP Framework
+ *
+ *
+ * @link https://github.com/utopia-php/framework
+ *
+ * @author Eldad Fux <eldad@appwrite.io>
+ *
+ * @version 1.0 RC4
+ *
+ * @license The MIT License (MIT) <http://www.opensource.org/licenses/mit-license.php>
+ */
+
+namespace Utopia\Tests\Validator;
+
+use PHPUnit\Framework\TestCase;
+use Utopia\Emails\Validator\EmailNotDisposable;
+
+class EmailNotDisposableTest extends TestCase
+{
+    public function testValidNonDisposableEmail(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals(true, $validator->isValid('test@example.com'));
+        $this->assertEquals(true, $validator->isValid('user@gmail.com'));
+        $this->assertEquals(true, $validator->isValid('user@yahoo.com'));
+        $this->assertEquals(true, $validator->isValid('user@company.com'));
+        $this->assertEquals(true, $validator->isValid('user@business.org'));
+    }
+
+    public function testInvalidDisposableEmail(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals(false, $validator->isValid('user@10minutemail.com'));
+        $this->assertEquals(false, $validator->isValid('user@tempmail.org'));
+        $this->assertEquals(false, $validator->isValid('user@guerrillamail.com'));
+        $this->assertEquals(false, $validator->isValid('user@mailinator.com'));
+        $this->assertEquals(false, $validator->isValid('user@yopmail.com'));
+        $this->assertEquals(false, $validator->isValid('user@temp-mail.org'));
+        $this->assertEquals(false, $validator->isValid('user@throwaway.email'));
+        $this->assertEquals(false, $validator->isValid('user@getnada.com'));
+        $this->assertEquals(false, $validator->isValid('user@maildrop.cc'));
+        $this->assertEquals(false, $validator->isValid('user@sharklasers.com'));
+        $this->assertEquals(false, $validator->isValid('user@test.com'));
+        // example.com is no longer considered disposable
+        $this->assertEquals(true, $validator->isValid('user@example.com'));
+        $this->assertEquals(true, $validator->isValid('user@example.org'));
+        $this->assertEquals(true, $validator->isValid('user@example.net'));
+    }
+
+    public function testInvalidEmailFormat(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals(false, $validator->isValid(''));
+        $this->assertEquals(false, $validator->isValid('invalid-email'));
+        $this->assertEquals(false, $validator->isValid('user@example@com'));
+        $this->assertEquals(false, $validator->isValid('@example.com'));
+        $this->assertEquals(false, $validator->isValid('user@'));
+    }
+
+    public function testNonStringInput(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals(false, $validator->isValid(null));
+        $this->assertEquals(false, $validator->isValid(123));
+        $this->assertEquals(false, $validator->isValid([]));
+        $this->assertEquals(false, $validator->isValid(new \stdClass()));
+        $this->assertEquals(false, $validator->isValid(true));
+        $this->assertEquals(false, $validator->isValid(false));
+    }
+
+    public function testValidatorDescription(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals('Value must be a valid email address that is not from a disposable email service', $validator->getDescription());
+    }
+
+    public function testValidatorType(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals('string', $validator->getType());
+    }
+
+    public function testValidatorIsArray(): void
+    {
+        $validator = new EmailNotDisposable();
+
+        $this->assertEquals(false, $validator->isArray());
+    }
+}
