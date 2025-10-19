@@ -8,7 +8,7 @@
 
 Utopia Emails library is a simple and lite library for parsing and validating email addresses. This library is aiming to be as simple and easy to learn and use. This library is maintained by the [Appwrite team](https://appwrite.io).
 
-Although this library is part of the [Utopia Framework](https://github.com/utopia-php/framework) project, it is completely **dependency-free** and can be used as standalone with any other PHP project or framework.
+Although this library is part of the [Utopia Framework](https://github.com/utopia-php/framework) project, it can be used as standalone with any other PHP project or framework.
 
 ## Getting Started
 
@@ -28,8 +28,6 @@ use Utopia\Emails\Email;
 $email = new Email('user@example.com');
 
 $email->get(); // user@example.com
-$email->getLocal(); // user
-$email->getDomain(); // example.com
 $email->getLocal(); // user
 $email->getDomain(); // example.com
 $email->isValid(); // true
@@ -63,10 +61,9 @@ $email->getFormatted(Email::FORMAT_DOMAIN); // mail.example.com
 $email->getFormatted(Email::FORMAT_PROVIDER); // example.com
 $email->getFormatted(Email::FORMAT_SUBDOMAIN); // mail
 
-// Email normalization
+// Email normalization (automatic)
 $email = new Email('  USER@EXAMPLE.COM  ');
 $email->get(); // user@example.com
-$email->normalize(); // user@example.com
 
 ```
 
@@ -89,7 +86,6 @@ The Email class provides the following constants for email formatting:
 * **get()** - Return full email address.
 * **getLocal()** - Return local part (before @).
 * **getDomain()** - Return domain part (after @).
-* **getDomainOnly()** - Return email without local part (domain only).
 * **isValid()** - Check if email is valid format.
 * **hasValidLocal()** - Check if email has valid local part.
 * **hasValidDomain()** - Check if email has valid domain part.
@@ -99,7 +95,6 @@ The Email class provides the following constants for email formatting:
 * **getProvider()** - Get email provider (domain without subdomain).
 * **getSubdomain()** - Get email subdomain (if any).
 * **hasSubdomain()** - Check if email has subdomain.
-* **normalize()** - Normalize email address (remove extra spaces, convert to lowercase).
 * **getFormatted(string $format)** - Get email in different formats. Use constants: `Email::FORMAT_FULL`, `Email::FORMAT_LOCAL`, `Email::FORMAT_DOMAIN`, `Email::FORMAT_PROVIDER`, `Email::FORMAT_SUBDOMAIN`.
 
 ## Using the Validators
@@ -107,22 +102,16 @@ The Email class provides the following constants for email formatting:
 ```php
 <?php
 
-use Utopia\Emails\Validator\EmailBasic;
-use Utopia\Emails\Validator\EmailAddress;
+use Utopia\Emails\Validator\Email;
 use Utopia\Emails\Validator\EmailDomain;
 use Utopia\Emails\Validator\EmailLocal;
 use Utopia\Emails\Validator\EmailNotDisposable;
 use Utopia\Emails\Validator\EmailCorporate;
 
-// Basic email validation (using PHP's filter_var)
-$basicValidator = new EmailBasic();
-$basicValidator->isValid('user@example.com'); // true
-$basicValidator->isValid('invalid-email'); // false
-
-// Advanced email validation
-$validator = new EmailAddress();
-$validator->isValid('user@example.com'); // true
-$validator->isValid('invalid-email'); // false
+// Basic email validation
+$emailValidator = new Email();
+$emailValidator->isValid('user@example.com'); // true
+$emailValidator->isValid('invalid-email'); // false
 
 // Domain validation
 $domainValidator = new EmailDomain();
@@ -148,8 +137,7 @@ $corporateValidator->isValid('user@gmail.com'); // false
 
 ## Library Validators API
 
-* **EmailBasic** - Basic email validation using PHP's filter_var function.
-* **EmailAddress** - Advanced email validation with custom rules.
+* **Email** - Basic email validation using the Email class.
 * **EmailDomain** - Validates that an email address has a valid domain.
 * **EmailLocal** - Validates that an email address has a valid local part.
 * **EmailNotDisposable** - Validates that an email address is not from a disposable email service.
@@ -203,7 +191,6 @@ The library uses external data files to classify email domains as free or dispos
 
 - `data/free-domains.php` - List of known free email service providers
 - `data/disposable-domains.php` - List of known disposable/temporary email services
-- `data/sources.php` - Configuration for import sources
 - `data/free-domains-manual.php` - Manually managed free email domains
 - `data/disposable-domains-manual.php` - Manually managed disposable email domains
 
@@ -329,9 +316,9 @@ return [
 
 #### Configuration
 
-Sources are defined in `data/sources.php`. You can:
-- Enable/disable sources by setting `enabled` to true/false
-- Add new sources by adding entries to the configuration
+Sources are defined in `import.php`. You can:
+- Enable/disable sources by modifying the source arrays
+- Add new sources by adding entries to the `DISPOSABLE_SOURCES` or `FREE_SOURCES` arrays
 - Modify existing source URLs or descriptions
 
 ## System Requirements
