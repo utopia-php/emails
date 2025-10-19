@@ -20,7 +20,7 @@ use Utopia\Emails\Validator\Email;
 
 class EmailTest extends TestCase
 {
-    public function test_valid_email(): void
+    public function test_validemail(): void
     {
         $validator = new Email;
 
@@ -34,7 +34,7 @@ class EmailTest extends TestCase
         $this->assertEquals(true, $validator->isValid('user@mail.sub.example.com'));
     }
 
-    public function test_invalid_email(): void
+    public function test_invalidemail(): void
     {
         $validator = new Email;
 
@@ -71,14 +71,14 @@ class EmailTest extends TestCase
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function test_validator_description(): void
+    public function test_validatordescription(): void
     {
         $validator = new Email;
 
         $this->assertEquals('Value must be a valid email address', $validator->getDescription());
     }
 
-    public function test_validator_type(): void
+    public function test_validatortype(): void
     {
         $validator = new Email;
 

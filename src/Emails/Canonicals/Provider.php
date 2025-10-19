@@ -1,6 +1,6 @@
 <?php
 
-namespace Utopia\Emails\Normalizer;
+namespace Utopia\Emails\Canonicals;
 
 /**
  * Abstract Email Provider
@@ -15,13 +15,13 @@ abstract class Provider
     abstract public function supports(string $domain): bool;
 
     /**
-     * Normalize the email address according to provider rules
+     * Get the canonical form of the email address according to provider rules
      *
      * @param  string  $local  The local part of the email (before @)
      * @param  string  $domain  The domain part of the email (after @)
-     * @return array Array with 'local' and 'domain' keys containing normalized values
+     * @return array Array with 'local' and 'domain' keys containing canonical values
      */
-    abstract public function normalize(string $local, string $domain): array;
+    abstract public function getCanonical(string $local, string $domain): array;
 
     /**
      * Get the canonical domain for this provider

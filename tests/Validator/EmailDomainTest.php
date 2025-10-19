@@ -60,14 +60,14 @@ class EmailDomainTest extends TestCase
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function test_validator_description(): void
+    public function test_validatordescription(): void
     {
         $validator = new EmailDomain;
 
         $this->assertEquals('Value must be a valid email address with a valid domain', $validator->getDescription());
     }
 
-    public function test_validator_type(): void
+    public function test_validatortype(): void
     {
         $validator = new EmailDomain;
 

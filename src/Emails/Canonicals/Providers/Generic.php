@@ -1,8 +1,8 @@
 <?php
 
-namespace Utopia\Emails\Normalizer\Providers;
+namespace Utopia\Emails\Canonicals\Providers;
 
-use Utopia\Emails\Normalizer\Provider;
+use Utopia\Emails\Canonicals\Provider;
 
 /**
  * Generic
@@ -19,7 +19,7 @@ class Generic extends Provider
         return true;
     }
 
-    public function normalize(string $local, string $domain): array
+    public function getCanonical(string $local, string $domain): array
     {
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);

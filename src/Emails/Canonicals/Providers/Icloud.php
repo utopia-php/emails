@@ -1,50 +1,44 @@
 <?php
 
-namespace Utopia\Emails\Normalizer\Providers;
+namespace Utopia\Emails\Canonicals\Providers;
 
-use Utopia\Emails\Normalizer\Provider;
+use Utopia\Emails\Canonicals\Provider;
 
 /**
- * Yahoo
+ * iCloud
  *
- * Handles Yahoo email normalization
- * - TODO: Plus addressing, dots, and hyphens removal commented out until manual confirmation
+ * Handles Apple iCloud email normalization
+ * - TODO: Plus addressing and dots removal commented out until manual confirmation
  * - Preserves dots and hyphens in local part
- * - Normalizes to yahoo.com domain
+ * - Normalizes to icloud.com domain
  */
-class Yahoo extends Provider
+class Icloud extends Provider
 {
-    private const SUPPORTED_DOMAINS = [
-        'yahoo.com', 'yahoo.co.uk', 'yahoo.ca',
-        'ymail.com', 'rocketmail.com',
-    ];
+    private const SUPPORTED_DOMAINS = ['icloud.com', 'me.com', 'mac.com'];
 
-    private const CANONICAL_DOMAIN = 'yahoo.com';
+    private const CANONICAL_DOMAIN = 'icloud.com';
 
     public function supports(string $domain): bool
     {
         return in_array($domain, self::SUPPORTED_DOMAINS, true);
     }
 
-    public function normalize(string $local, string $domain): array
+    public function getCanonical(string $local, string $domain): array
     {
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // TODO: Commented out until manual confirmation of Yahoo's plus addressing, dots, and hyphens support
+        // TODO: Commented out until manual confirmation of iCloud's plus addressing and dots support
         // Check if there's plus addressing
         // $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
 
         // Remove plus addressing (everything after +)
         // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
 
-        // Remove dots only if there was plus addressing (Yahoo treats dots as aliases only with plus)
+        // Remove dots only if there was plus addressing (iCloud treats dots as aliases only with plus)
         // if ($hasPlus) {
         //     $normalizedLocal = $this->removeDots($normalizedLocal);
         // }
-
-        // Remove hyphens (Yahoo treats hyphens as aliases)
-        // $normalizedLocal = $this->removeHyphens($normalizedLocal);
 
         return [
             'local' => $normalizedLocal,

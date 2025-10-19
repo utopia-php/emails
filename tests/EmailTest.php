@@ -28,8 +28,8 @@ class EmailTest extends TestCase
         $this->assertEquals('test@company.org', $email->get());
         $this->assertEquals('test', $email->getLocal());
         $this->assertEquals('company.org', $email->getDomain());
-        $this->assertEquals('company.org', $email->getDomainOnly());
-        $this->assertEquals('test', $email->getLocalOnly());
+        $this->assertEquals('company.org', $email->getDomain());
+        $this->assertEquals('test', $email->getLocal());
         $this->assertEquals(true, $email->isValid());
         $this->assertEquals(true, $email->hasValidLocal());
         $this->assertEquals(true, $email->hasValidDomain());
@@ -39,7 +39,7 @@ class EmailTest extends TestCase
         $this->assertEquals('company.org', $email->getProvider());
         $this->assertEquals('', $email->getSubdomain());
         $this->assertEquals(false, $email->hasSubdomain());
-        $this->assertEquals('test@company.org', $email->normalize());
+        $this->assertEquals('test@company.org', $email->getAddress());
     }
 
     public function test_email_with_subdomain(): void
@@ -167,7 +167,7 @@ class EmailTest extends TestCase
         $email = new Email('  USER@COMPANY.ORG  ');
 
         $this->assertEquals('user@company.org', $email->get());
-        $this->assertEquals('user@company.org', $email->normalize());
+        $this->assertEquals('user@company.org', $email->getAddress());
     }
 
     public function test_invalid_email_empty(): void
@@ -416,7 +416,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -468,7 +468,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -530,7 +530,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -568,7 +568,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -606,7 +606,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -642,7 +642,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -677,7 +677,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -743,7 +743,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -798,7 +798,7 @@ class EmailTest extends TestCase
 
         foreach ($testCases as [$input, $expected]) {
             $email = new Email($input);
-            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+            $this->assertEquals($expected, $email->getCanonical(), "Failed for input: {$input}");
         }
     }
 
@@ -830,7 +830,7 @@ class EmailTest extends TestCase
 
         foreach ($supportedEmails as $emailAddress) {
             $email = new Email($emailAddress);
-            $this->assertTrue($email->isNormalizationSupported(), "Email {$emailAddress} should support normalization");
+            $this->assertTrue($email->isCanonicalSupported(), "Email {$emailAddress} should support normalization");
         }
 
         $unsupportedEmails = [
@@ -842,7 +842,7 @@ class EmailTest extends TestCase
 
         foreach ($unsupportedEmails as $emailAddress) {
             $email = new Email($emailAddress);
-            $this->assertFalse($email->isNormalizationSupported(), "Email {$emailAddress} should not support normalization");
+            $this->assertFalse($email->isCanonicalSupported(), "Email {$emailAddress} should not support normalization");
         }
     }
 
@@ -886,28 +886,28 @@ class EmailTest extends TestCase
     {
         // Test that different providers are used correctly
         $gmailEmail = new Email('user.name+tag@gmail.com');
-        $this->assertEquals('username@gmail.com', $gmailEmail->getUnique());
+        $this->assertEquals('username@gmail.com', $gmailEmail->getCanonical());
 
         // TODO: Commented out until manual confirmation of Outlook's plus addressing support
         // $outlookEmail = new Email('user.name+tag@outlook.com');
-        // $this->assertEquals('user.name@outlook.com', $outlookEmail->getUnique());
+        // $this->assertEquals('user.name@outlook.com', $outlookEmail->getCanonical());
 
         // Dots are preserved for Outlook
         $outlookEmail = new Email('user.name@outlook.com');
-        $this->assertEquals('user.name@outlook.com', $outlookEmail->getUnique());
+        $this->assertEquals('user.name@outlook.com', $outlookEmail->getCanonical());
 
         // TODO: Commented out until manual confirmation of non-Gmail providers' plus addressing and dots support
         // $yahooEmail = new Email('user-name+tag@yahoo.com');
-        // $this->assertEquals('username@yahoo.com', $yahooEmail->getUnique());
+        // $this->assertEquals('username@yahoo.com', $yahooEmail->getCanonical());
 
         // $genericEmail = new Email('user.name+tag@example.com');
-        // $this->assertEquals('username@example.com', $genericEmail->getUnique());
+        // $this->assertEquals('username@example.com', $genericEmail->getCanonical());
 
         // Dots and pluses are preserved for non-Gmail providers
         $yahooEmail = new Email('user-name@yahoo.com');
-        $this->assertEquals('user-name@yahoo.com', $yahooEmail->getUnique());
+        $this->assertEquals('user-name@yahoo.com', $yahooEmail->getCanonical());
 
         $genericEmail = new Email('user.name@example.com');
-        $this->assertEquals('user.name@example.com', $genericEmail->getUnique());
+        $this->assertEquals('user.name@example.com', $genericEmail->getCanonical());
     }
 }

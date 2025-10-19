@@ -3,14 +3,14 @@
 namespace Utopia\Emails;
 
 use Exception;
-use Utopia\Emails\Normalizer\Provider;
-use Utopia\Emails\Normalizer\Providers\Fastmail;
-use Utopia\Emails\Normalizer\Providers\Generic;
-use Utopia\Emails\Normalizer\Providers\Gmail;
-use Utopia\Emails\Normalizer\Providers\Icloud;
-use Utopia\Emails\Normalizer\Providers\Outlook;
-use Utopia\Emails\Normalizer\Providers\Protonmail;
-use Utopia\Emails\Normalizer\Providers\Yahoo;
+use Utopia\Emails\Canonicals\Provider;
+use Utopia\Emails\Canonicals\Providers\Fastmail;
+use Utopia\Emails\Canonicals\Providers\Generic;
+use Utopia\Emails\Canonicals\Providers\Gmail;
+use Utopia\Emails\Canonicals\Providers\Icloud;
+use Utopia\Emails\Canonicals\Providers\Outlook;
+use Utopia\Emails\Canonicals\Providers\Protonmail;
+use Utopia\Emails\Canonicals\Providers\Yahoo;
 
 class Email
 {
@@ -133,22 +133,6 @@ class Email
     public function getDomain(): string
     {
         return $this->domain;
-    }
-
-    /**
-     * Return email without local part (domain only)
-     */
-    public function getDomainOnly(): string
-    {
-        return $this->domain;
-    }
-
-    /**
-     * Return email without domain part (local only)
-     */
-    public function getLocalOnly(): string
-    {
-        return $this->local;
     }
 
     /**
@@ -289,30 +273,30 @@ class Email
     }
 
     /**
-     * Normalize email address (remove extra spaces, convert to lowercase)
+     * Get the email address (as provided, just lowercased and trimmed)
      */
-    public function normalize(): string
+    public function getAddress(): string
     {
         return $this->email;
     }
 
     /**
-     * Get unique email address by removing aliases and provider-specific variations
+     * Get the canonical email address by removing aliases and provider-specific variations
      * This method removes plus addressing, dot notation (for Gmail), and other aliasing techniques
      * to return the canonical form of the email address
      */
-    public function getUnique(): string
+    public function getCanonical(): string
     {
         $provider = $this->getProviderForDomain($this->domain);
-        $normalized = $provider->normalize($this->local, $this->domain);
+        $canonical = $provider->getCanonical($this->local, $this->domain);
 
-        return $normalized['local'].'@'.$normalized['domain'];
+        return $canonical['local'].'@'.$canonical['domain'];
     }
 
     /**
-     * Check if the email domain is supported for normalization
+     * Check if the email domain is supported for canonical form generation
      */
-    public function isNormalizationSupported(): bool
+    public function isCanonicalSupported(): bool
     {
         return $this->isDomainSupported($this->domain);
     }

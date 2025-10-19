@@ -100,14 +100,14 @@ class EmailCorporateTest extends TestCase
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function test_validator_description(): void
+    public function test_validatordescription(): void
     {
         $validator = new EmailCorporate;
 
         $this->assertEquals('Value must be a valid email address from a corporate domain', $validator->getDescription());
     }
 
-    public function test_validator_type(): void
+    public function test_validatortype(): void
     {
         $validator = new EmailCorporate;
 

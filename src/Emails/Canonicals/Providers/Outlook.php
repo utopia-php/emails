@@ -1,8 +1,8 @@
 <?php
 
-namespace Utopia\Emails\Normalizer\Providers;
+namespace Utopia\Emails\Canonicals\Providers;
 
-use Utopia\Emails\Normalizer\Provider;
+use Utopia\Emails\Canonicals\Provider;
 
 /**
  * Outlook
@@ -26,7 +26,7 @@ class Outlook extends Provider
         return in_array($domain, self::SUPPORTED_DOMAINS, true);
     }
 
-    public function normalize(string $local, string $domain): array
+    public function getCanonical(string $local, string $domain): array
     {
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);

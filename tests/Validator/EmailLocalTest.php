@@ -56,14 +56,14 @@ class EmailLocalTest extends TestCase
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function test_validator_description(): void
+    public function test_validatordescription(): void
     {
         $validator = new EmailLocal;
 
         $this->assertEquals('Value must be a valid email address with a valid local part', $validator->getDescription());
     }
 
-    public function test_validator_type(): void
+    public function test_validatortype(): void
     {
         $validator = new EmailLocal;
 

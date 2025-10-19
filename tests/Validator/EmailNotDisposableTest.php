@@ -75,14 +75,14 @@ class EmailNotDisposableTest extends TestCase
         $this->assertEquals(false, $validator->isValid(false));
     }
 
-    public function test_validator_description(): void
+    public function test_validatordescription(): void
     {
         $validator = new EmailNotDisposable;
 
         $this->assertEquals('Value must be a valid email address that is not from a disposable email service', $validator->getDescription());
     }
 
-    public function test_validator_type(): void
+    public function test_validatortype(): void
     {
         $validator = new EmailNotDisposable;
 

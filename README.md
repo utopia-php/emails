@@ -30,8 +30,8 @@ $email = new Email('user@example.com');
 $email->get(); // user@example.com
 $email->getLocal(); // user
 $email->getDomain(); // example.com
-$email->getLocalOnly(); // user
-$email->getDomainOnly(); // example.com
+$email->getLocal(); // user
+$email->getDomain(); // example.com
 $email->isValid(); // true
 $email->hasValidLocal(); // true
 $email->hasValidDomain(); // true
@@ -89,7 +89,6 @@ The Email class provides the following constants for email formatting:
 * **get()** - Return full email address.
 * **getLocal()** - Return local part (before @).
 * **getDomain()** - Return domain part (after @).
-* **getLocalOnly()** - Return email without domain part (local only).
 * **getDomainOnly()** - Return email without local part (domain only).
 * **isValid()** - Check if email is valid format.
 * **hasValidLocal()** - Check if email has valid local part.

@@ -13,10 +13,10 @@
  * @license The MIT License (MIT) <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Utopia\Tests\Normalizer\Providers;
+namespace Utopia\Tests\Canonicals\Providers;
 
 use PHPUnit\Framework\TestCase;
-use Utopia\Emails\Normalizer\Providers\Outlook;
+use Utopia\Emails\Canonicals\Providers\Outlook;
 
 class OutlookTest extends TestCase
 {
@@ -40,7 +40,7 @@ class OutlookTest extends TestCase
         $this->assertFalse($this->provider->supports('example.com'));
     }
 
-    public function test_normalize(): void
+    public function test_get_canonical(): void
     {
         $testCases = [
             // TODO: Commented out until manual confirmation of Outlook's plus addressing support
@@ -80,7 +80,7 @@ class OutlookTest extends TestCase
         ];
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
-            $result = $this->provider->normalize($inputLocal, $inputDomain);
+            $result = $this->provider->getCanonical($inputLocal, $inputDomain);
             $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
             $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
