@@ -28,9 +28,13 @@ class Email
      * Email format constants
      */
     public const FORMAT_FULL = 'full';
+
     public const FORMAT_LOCAL = 'local';
+
     public const FORMAT_DOMAIN = 'domain';
+
     public const FORMAT_PROVIDER = 'provider';
+
     public const FORMAT_SUBDOMAIN = 'subdomain';
 
     /**
