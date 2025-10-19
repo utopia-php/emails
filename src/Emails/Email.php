@@ -198,7 +198,7 @@ class Email
         }
 
         // Use utopia domains to check if domain is known and valid
-        if (!$this->domainInstance->isKnown() && !$this->domainInstance->isTest()) {
+        if (! $this->domainInstance->isKnown() && ! $this->domainInstance->isTest()) {
             return false;
         }
 
@@ -254,7 +254,7 @@ class Email
     {
         // Use utopia domains to get the registerable domain (provider)
         $registerable = $this->domainInstance->getRegisterable();
-        
+
         // If registerable domain is not available, fall back to the full domain
         if (empty($registerable)) {
             return $this->domain;
