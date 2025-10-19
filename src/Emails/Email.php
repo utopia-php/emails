@@ -25,6 +25,15 @@ class Email
     public const DOMAIN_MAX_LENGTH = 253;
 
     /**
+     * Email format constants
+     */
+    public const FORMAT_FULL = 'full';
+    public const FORMAT_LOCAL = 'local';
+    public const FORMAT_DOMAIN = 'domain';
+    public const FORMAT_PROVIDER = 'provider';
+    public const FORMAT_SUBDOMAIN = 'subdomain';
+
+    /**
      * Email address
      *
      * @var string
@@ -373,18 +382,18 @@ class Email
     /**
      * Get email in different formats
      */
-    public function getFormatted(string $format = 'full'): string
+    public function getFormatted(string $format = self::FORMAT_FULL): string
     {
         switch ($format) {
-            case 'local':
+            case self::FORMAT_LOCAL:
                 return $this->local;
-            case 'domain':
+            case self::FORMAT_DOMAIN:
                 return $this->domain;
-            case 'provider':
+            case self::FORMAT_PROVIDER:
                 return $this->getProvider();
-            case 'subdomain':
+            case self::FORMAT_SUBDOMAIN:
                 return $this->getSubdomain();
-            case 'full':
+            case self::FORMAT_FULL:
             default:
                 return $this->email;
         }

@@ -57,11 +57,11 @@ $email->getSubdomain(); // mail
 $email->hasSubdomain(); // true
 
 // Email formatting
-$email->getFormatted('full'); // user@mail.example.com
-$email->getFormatted('local'); // user
-$email->getFormatted('domain'); // mail.example.com
-$email->getFormatted('provider'); // example.com
-$email->getFormatted('subdomain'); // mail
+$email->getFormatted(Email::FORMAT_FULL); // user@mail.example.com
+$email->getFormatted(Email::FORMAT_LOCAL); // user
+$email->getFormatted(Email::FORMAT_DOMAIN); // mail.example.com
+$email->getFormatted(Email::FORMAT_PROVIDER); // example.com
+$email->getFormatted(Email::FORMAT_SUBDOMAIN); // mail
 
 // Email normalization
 $email = new Email('  USER@EXAMPLE.COM  ');
@@ -73,6 +73,18 @@ $email->normalize(); // user@example.com
 ## Library API
 
 ### Email Class
+
+#### Constants
+
+The Email class provides the following constants for email formatting:
+
+- `Email::FORMAT_FULL` - Full email address (default)
+- `Email::FORMAT_LOCAL` - Local part only (before @)
+- `Email::FORMAT_DOMAIN` - Domain part only (after @)
+- `Email::FORMAT_PROVIDER` - Provider domain (domain without subdomain)
+- `Email::FORMAT_SUBDOMAIN` - Subdomain part only
+
+#### Methods
 
 * **get()** - Return full email address.
 * **getLocal()** - Return local part (before @).
@@ -89,7 +101,7 @@ $email->normalize(); // user@example.com
 * **getSubdomain()** - Get email subdomain (if any).
 * **hasSubdomain()** - Check if email has subdomain.
 * **normalize()** - Normalize email address (remove extra spaces, convert to lowercase).
-* **getFormatted(string $format)** - Get email in different formats ('full', 'local', 'domain', 'provider', 'subdomain').
+* **getFormatted(string $format)** - Get email in different formats. Use constants: `Email::FORMAT_FULL`, `Email::FORMAT_LOCAL`, `Email::FORMAT_DOMAIN`, `Email::FORMAT_PROVIDER`, `Email::FORMAT_SUBDOMAIN`.
 
 ## Using the Validators
 
