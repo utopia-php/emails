@@ -11,6 +11,7 @@ use Utopia\Emails\Canonicals\Providers\Gmail;
 use Utopia\Emails\Canonicals\Providers\Icloud;
 use Utopia\Emails\Canonicals\Providers\Outlook;
 use Utopia\Emails\Canonicals\Providers\Protonmail;
+use Utopia\Emails\Canonicals\Providers\Walla;
 use Utopia\Emails\Canonicals\Providers\Yahoo;
 
 class Email
@@ -345,6 +346,7 @@ class Email
                 new Icloud,
                 new Protonmail,
                 new Fastmail,
+                new Walla,
             ];
         }
     }
