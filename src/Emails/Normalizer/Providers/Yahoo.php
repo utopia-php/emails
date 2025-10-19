@@ -8,9 +8,8 @@ use Utopia\Emails\Normalizer\Provider;
  * Yahoo
  *
  * Handles Yahoo email normalization
- * - Removes plus addressing
- * - Removes hyphens from local part
- * - Preserves dots in local part
+ * - TODO: Plus addressing, dots, and hyphens removal commented out until manual confirmation
+ * - Preserves dots and hyphens in local part
  * - Normalizes to yahoo.com domain
  */
 class Yahoo extends Provider
@@ -32,19 +31,20 @@ class Yahoo extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
+        // TODO: Commented out until manual confirmation of Yahoo's plus addressing, dots, and hyphens support
         // Check if there's plus addressing
-        $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
+        // $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
 
         // Remove plus addressing (everything after +)
-        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+        // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
 
         // Remove dots only if there was plus addressing (Yahoo treats dots as aliases only with plus)
-        if ($hasPlus) {
-            $normalizedLocal = $this->removeDots($normalizedLocal);
-        }
+        // if ($hasPlus) {
+        //     $normalizedLocal = $this->removeDots($normalizedLocal);
+        // }
 
         // Remove hyphens (Yahoo treats hyphens as aliases)
-        $normalizedLocal = $this->removeHyphens($normalizedLocal);
+        // $normalizedLocal = $this->removeHyphens($normalizedLocal);
 
         return [
             'local' => $normalizedLocal,

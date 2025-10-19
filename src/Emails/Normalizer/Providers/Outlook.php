@@ -8,7 +8,7 @@ use Utopia\Emails\Normalizer\Provider;
  * Outlook
  *
  * Handles Outlook, Hotmail, and Live email normalization
- * - Removes plus addressing
+ * - TODO: Plus addressing removal commented out until manual confirmation
  * - Preserves dots in local part
  * - Normalizes to outlook.com domain
  */
@@ -31,8 +31,9 @@ class Outlook extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
+        // TODO: Commented out until manual confirmation of Outlook's plus addressing support
         // Remove plus addressing (everything after +)
-        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+        // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
 
         return [
             'local' => $normalizedLocal,

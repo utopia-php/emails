@@ -8,7 +8,7 @@ use Utopia\Emails\Normalizer\Provider;
  * Generic
  *
  * Handles generic email normalization for unsupported providers
- * - Only removes plus addressing
+ * - TODO: Plus addressing, dots, and hyphens removal commented out until manual confirmation
  * - Preserves all other characters
  */
 class Generic extends Provider
@@ -24,17 +24,18 @@ class Generic extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
+        // TODO: Commented out until manual confirmation of generic providers' plus addressing, dots, and hyphens support
         // Check if there's plus addressing
-        $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
+        // $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
 
         // Remove plus addressing (everything after +)
-        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+        // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
 
         // Remove dots and hyphens only if there was plus addressing (generic providers treat these as aliases only with plus)
-        if ($hasPlus) {
-            $normalizedLocal = $this->removeDots($normalizedLocal);
-            $normalizedLocal = $this->removeHyphens($normalizedLocal);
-        }
+        // if ($hasPlus) {
+        //     $normalizedLocal = $this->removeDots($normalizedLocal);
+        //     $normalizedLocal = $this->removeHyphens($normalizedLocal);
+        // }
 
         return [
             'local' => $normalizedLocal,
