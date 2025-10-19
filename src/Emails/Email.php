@@ -211,7 +211,11 @@ class Email
     public function isDisposable(): bool
     {
         if (self::$disposableDomains === null) {
-            self::$disposableDomains = include __DIR__.'/../../data/disposable-domains.php';
+            $data = include __DIR__.'/../../data/disposable-domains.php';
+            if (!is_array($data)) {
+                throw new Exception('Disposable domains data file must return an array');
+            }
+            self::$disposableDomains = $data;
         }
 
         return in_array($this->domain, self::$disposableDomains);
