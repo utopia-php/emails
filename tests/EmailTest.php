@@ -26,7 +26,7 @@ class EmailTest extends TestCase
         $this->assertEquals('company.org', $email->getProvider());
         $this->assertEquals('', $email->getSubdomain());
         $this->assertEquals(false, $email->hasSubdomain());
-        $this->assertEquals('test@company.org', $email->getAddress());
+        $this->assertEquals('test@company.org', $email->get());
     }
 
     public function test_email_with_subdomain(): void
@@ -154,7 +154,6 @@ class EmailTest extends TestCase
         $email = new Email('  USER@COMPANY.ORG  ');
 
         $this->assertEquals('user@company.org', $email->get());
-        $this->assertEquals('user@company.org', $email->getAddress());
     }
 
     public function test_invalid_email_empty(): void
