@@ -11,6 +11,7 @@ use Utopia\Emails\Canonicals\Providers\Gmail;
 use Utopia\Emails\Canonicals\Providers\Icloud;
 use Utopia\Emails\Canonicals\Providers\Outlook;
 use Utopia\Emails\Canonicals\Providers\Protonmail;
+use Utopia\Emails\Canonicals\Providers\Walla;
 use Utopia\Emails\Canonicals\Providers\Yahoo;
 
 class Email
@@ -289,14 +290,6 @@ class Email
     }
 
     /**
-     * Get the email address (as provided, just lowercased and trimmed)
-     */
-    public function getAddress(): string
-    {
-        return $this->email;
-    }
-
-    /**
      * Get the canonical email address by removing aliases and provider-specific variations
      * This method removes plus addressing, dot notation (for Gmail), and other aliasing techniques
      * to return the canonical form of the email address
@@ -345,6 +338,7 @@ class Email
                 new Icloud,
                 new Protonmail,
                 new Fastmail,
+                new Walla,
             ];
         }
     }
