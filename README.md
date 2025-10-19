@@ -334,10 +334,6 @@ Utopia Emails requires PHP 8.0 or later. We recommend using the latest PHP versi
 + [https://twitter.com/eldadfux](https://twitter.com/eldadfux)
 + [https://github.com/eldadfux](https://github.com/eldadfux)
 
-**Wess Cope**
-
-+ [https://github.com/wesscope](https://github.com/wesscope)
-
 ## Copyright and license
 
 The MIT License (MIT) [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
