@@ -14,7 +14,7 @@ class WallaTest extends TestCase
         $this->provider = new Walla;
     }
 
-    public function testSupports(): void
+    public function test_supports(): void
     {
         $this->assertTrue($this->provider->supports('walla.co.il'));
         $this->assertTrue($this->provider->supports('walla.com'));
@@ -24,7 +24,7 @@ class WallaTest extends TestCase
         $this->assertFalse($this->provider->supports('example.com'));
     }
 
-    public function testGetCanonical(): void
+    public function test_get_canonical(): void
     {
         $testCases = [
             // walla.co.il domain
@@ -62,12 +62,12 @@ class WallaTest extends TestCase
         }
     }
 
-    public function testGetCanonicalDomain(): void
+    public function test_get_canonical_domain(): void
     {
         $this->assertEquals('walla.co.il', $this->provider->getCanonicalDomain());
     }
 
-    public function testGetSupportedDomains(): void
+    public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
         $this->assertEquals(['walla.co.il', 'walla.com'], $domains);
