@@ -78,4 +78,29 @@ class EmailTest extends TestCase
 
         $this->assertEquals(false, $validator->isArray());
     }
+
+    public function test_allow_empty_disabled(): void
+    {
+        $validator = new Email(false);
+
+        $this->assertEquals(false, $validator->isValid(''));
+        $this->assertEquals(true, $validator->isValid('test@example.com'));
+    }
+
+    public function test_allow_empty_enabled(): void
+    {
+        $validator = new Email(true);
+
+        $this->assertEquals(true, $validator->isValid(''));
+        $this->assertEquals(true, $validator->isValid('test@example.com'));
+        $this->assertEquals(false, $validator->isValid('invalid-email'));
+    }
+
+    public function test_allow_empty_default_behavior(): void
+    {
+        $validator = new Email;
+
+        $this->assertEquals(false, $validator->isValid(''));
+        $this->assertEquals(true, $validator->isValid('test@example.com'));
+    }
 }
