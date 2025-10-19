@@ -212,7 +212,7 @@ class Email
     {
         if (self::$disposableDomains === null) {
             $data = include __DIR__.'/../../data/disposable-domains.php';
-            if (!is_array($data)) {
+            if (! is_array($data)) {
                 throw new Exception('Disposable domains data file must return an array');
             }
             self::$disposableDomains = $data;
@@ -228,7 +228,7 @@ class Email
     {
         if (self::$freeDomains === null) {
             $data = include __DIR__.'/../../data/free-domains.php';
-            if (!is_array($data)) {
+            if (! is_array($data)) {
                 throw new Exception('Free domains data file must return an array');
             }
             self::$freeDomains = $data;
