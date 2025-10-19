@@ -223,7 +223,11 @@ class Email
     public function isFree(): bool
     {
         if (self::$freeDomains === null) {
-            self::$freeDomains = include __DIR__.'/../../data/free-domains.php';
+            $data = include __DIR__.'/../../data/free-domains.php';
+            if (!is_array($data)) {
+                throw new Exception('Free domains data file must return an array');
+            }
+            self::$freeDomains = $data;
         }
 
         // If domain is both free and disposable, prioritize disposable classification
@@ -239,9 +243,9 @@ class Email
      */
     public function isCorporate(): bool
     {
-        // If domain is both free and disposable, prioritize free classification
+        // If domain is both free and disposable, prioritize disposable classification
         if ($this->isFree() && $this->isDisposable()) {
-            return false; // It's free, not corporate
+            return false; // It's disposable, not corporate
         }
 
         return ! $this->isFree() && ! $this->isDisposable();
@@ -325,9 +329,9 @@ class Email
     }
 
     /**
-     * Get the appropriate provider for a given domain
+     * Initialize providers array
      */
-    protected function getProviderForDomain(string $domain): Provider
+    protected static function initializeProviders(): void
     {
         if (self::$providers === null) {
             self::$providers = [
@@ -339,6 +343,14 @@ class Email
                 new Fastmail,
             ];
         }
+    }
+
+    /**
+     * Get the appropriate provider for a given domain
+     */
+    protected function getProviderForDomain(string $domain): Provider
+    {
+        self::initializeProviders();
 
         foreach (self::$providers as $provider) {
             if ($provider->supports($domain)) {
@@ -355,16 +367,7 @@ class Email
      */
     protected function isDomainSupported(string $domain): bool
     {
-        if (self::$providers === null) {
-            self::$providers = [
-                new Gmail,
-                new Outlook,
-                new Yahoo,
-                new Icloud,
-                new Protonmail,
-                new Fastmail,
-            ];
-        }
+        self::initializeProviders();
 
         foreach (self::$providers as $provider) {
             if ($provider->supports($domain)) {
