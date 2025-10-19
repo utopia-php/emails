@@ -3,6 +3,7 @@
 namespace Utopia\Emails;
 
 use Exception;
+use Utopia\Domains\Domain;
 use Utopia\Emails\Canonicals\Provider;
 use Utopia\Emails\Canonicals\Providers\Fastmail;
 use Utopia\Emails\Canonicals\Providers\Generic;
@@ -87,6 +88,13 @@ class Email
     protected static $providers = null;
 
     /**
+     * Domain instance for domain parsing
+     *
+     * @var Domain
+     */
+    protected $domainInstance = null;
+
+    /**
      * Email constructor.
      */
     public function __construct(string $email)
@@ -109,6 +117,9 @@ class Email
         if (empty($this->local) || empty($this->domain)) {
             throw new Exception("'{$email}' must be a valid email address");
         }
+
+        // Initialize domain instance for domain parsing
+        $this->domainInstance = new Domain($this->domain);
     }
 
     /**
@@ -186,6 +197,11 @@ class Email
             return false;
         }
 
+        // Use utopia domains to check if domain is known and valid
+        if (!$this->domainInstance->isKnown() && !$this->domainInstance->isTest()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -236,18 +252,15 @@ class Email
      */
     public function getProvider(): string
     {
-        $domainParts = explode('.', $this->domain);
-
-        if (count($domainParts) < 2) {
+        // Use utopia domains to get the registerable domain (provider)
+        $registerable = $this->domainInstance->getRegisterable();
+        
+        // If registerable domain is not available, fall back to the full domain
+        if (empty($registerable)) {
             return $this->domain;
         }
 
-        // For domains like mail.company.com, return company.com
-        if (count($domainParts) > 2) {
-            return implode('.', array_slice($domainParts, -2));
-        }
-
-        return $this->domain;
+        return $registerable;
     }
 
     /**
@@ -255,13 +268,8 @@ class Email
      */
     public function getSubdomain(): string
     {
-        $domainParts = explode('.', $this->domain);
-
-        if (count($domainParts) <= 2) {
-            return '';
-        }
-
-        return implode('.', array_slice($domainParts, 0, -2));
+        // Use utopia domains to get the subdomain
+        return $this->domainInstance->getSub();
     }
 
     /**
@@ -269,7 +277,7 @@ class Email
      */
     public function hasSubdomain(): bool
     {
-        return ! empty($this->getSubdomain());
+        return ! empty($this->domainInstance->getSub());
     }
 
     /**
