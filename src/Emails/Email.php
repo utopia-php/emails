@@ -3,6 +3,14 @@
 namespace Utopia\Emails;
 
 use Exception;
+use Utopia\Emails\Normalizer\Provider;
+use Utopia\Emails\Normalizer\Providers\Fastmail;
+use Utopia\Emails\Normalizer\Providers\Generic;
+use Utopia\Emails\Normalizer\Providers\Gmail;
+use Utopia\Emails\Normalizer\Providers\Icloud;
+use Utopia\Emails\Normalizer\Providers\Outlook;
+use Utopia\Emails\Normalizer\Providers\Protonmail;
+use Utopia\Emails\Normalizer\Providers\Yahoo;
 
 class Email
 {
@@ -57,6 +65,13 @@ class Email
      * @var array|null
      */
     protected static $disposableDomains = null;
+
+    /**
+     * Email providers
+     *
+     * @var Provider[]
+     */
+    protected static $providers = null;
 
     /**
      * Email constructor.
@@ -266,6 +281,93 @@ class Email
     public function normalize(): string
     {
         return $this->email;
+    }
+
+    /**
+     * Get unique email address by removing aliases and provider-specific variations
+     * This method removes plus addressing, dot notation (for Gmail), and other aliasing techniques
+     * to return the canonical form of the email address
+     */
+    public function getUnique(): string
+    {
+        $provider = $this->getProviderForDomain($this->domain);
+        $normalized = $provider->normalize($this->local, $this->domain);
+
+        return $normalized['local'].'@'.$normalized['domain'];
+    }
+
+    /**
+     * Check if the email domain is supported for normalization
+     */
+    public function isNormalizationSupported(): bool
+    {
+        return $this->isDomainSupported($this->domain);
+    }
+
+    /**
+     * Get the canonical domain for this email
+     */
+    public function getCanonicalDomain(): ?string
+    {
+        $provider = $this->getProviderForDomain($this->domain);
+
+        // Only return canonical domain if it's not the generic provider
+        if (! $provider instanceof Generic) {
+            return $provider->getCanonicalDomain();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the appropriate provider for a given domain
+     */
+    protected function getProviderForDomain(string $domain): Provider
+    {
+        if (self::$providers === null) {
+            self::$providers = [
+                new Gmail,
+                new Outlook,
+                new Yahoo,
+                new Icloud,
+                new Protonmail,
+                new Fastmail,
+            ];
+        }
+
+        foreach (self::$providers as $provider) {
+            if ($provider->supports($domain)) {
+                return $provider;
+            }
+        }
+
+        // Return generic provider if no specific provider found
+        return new Generic;
+    }
+
+    /**
+     * Check if a domain is supported by any provider
+     */
+    protected function isDomainSupported(string $domain): bool
+    {
+        if (self::$providers === null) {
+            self::$providers = [
+                new Gmail,
+                new Outlook,
+                new Yahoo,
+                new Icloud,
+                new Protonmail,
+                new Fastmail,
+            ];
+        }
+
+        foreach (self::$providers as $provider) {
+            if ($provider->supports($domain)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

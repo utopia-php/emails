@@ -8,10 +8,6 @@
       {
           "name": "Eldad Fux",
           "email": "eldad@appwrite.io"
-      },
-      {
-          "name": "Wess Cope",
-          "email": "wess@appwrite.io"
       }
   ],
   "autoload": {

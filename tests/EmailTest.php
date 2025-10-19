@@ -382,4 +382,461 @@ class EmailTest extends TestCase
             $this->assertEquals(true, $email->isCorporate(), "Failed for provider: {$provider}");
         }
     }
+
+    public function test_get_unique_gmail_aliases(): void
+    {
+        $testCases = [
+            // Gmail dot notation and plus addressing
+            ['user.name@gmail.com', 'username@gmail.com'],
+            ['user.name+tag@gmail.com', 'username@gmail.com'],
+            ['user.name+spam@gmail.com', 'username@gmail.com'],
+            ['user.name+newsletter@gmail.com', 'username@gmail.com'],
+            ['user.name+work@gmail.com', 'username@gmail.com'],
+            ['user.name+personal@gmail.com', 'username@gmail.com'],
+            ['user.name+test123@gmail.com', 'username@gmail.com'],
+            ['user.name+anything@gmail.com', 'username@gmail.com'],
+            ['user.name+verylongtag@gmail.com', 'username@gmail.com'],
+            ['user.name+tag.with.dots@gmail.com', 'username@gmail.com'],
+            ['user.name+tag-with-hyphens@gmail.com', 'username@gmail.com'],
+            ['user.name+tag_with_underscores@gmail.com', 'username@gmail.com'],
+            ['user.name+tag123@gmail.com', 'username@gmail.com'],
+            ['user.name+tag@googlemail.com', 'username@gmail.com'],
+            ['user.name+tag@googlemail.com', 'username@gmail.com'],
+            ['user.name+spam@googlemail.com', 'username@gmail.com'],
+            ['user.name@googlemail.com', 'username@gmail.com'],
+            // Multiple dots
+            ['u.s.e.r.n.a.m.e@gmail.com', 'username@gmail.com'],
+            ['u.s.e.r.n.a.m.e+tag@gmail.com', 'username@gmail.com'],
+            // Edge cases
+            ['user+@gmail.com', 'user@gmail.com'],
+            ['user.@gmail.com', 'user@gmail.com'],
+            ['.user@gmail.com', 'user@gmail.com'],
+            ['user..name@gmail.com', 'username@gmail.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_outlook_aliases(): void
+    {
+        $testCases = [
+            // Outlook/Hotmail/Live plus addressing
+            ['user.name+tag@outlook.com', 'user.name@outlook.com'],
+            ['user.name+spam@outlook.com', 'user.name@outlook.com'],
+            ['user.name+newsletter@outlook.com', 'user.name@outlook.com'],
+            ['user.name+work@outlook.com', 'user.name@outlook.com'],
+            ['user.name+personal@outlook.com', 'user.name@outlook.com'],
+            ['user.name+test123@outlook.com', 'user.name@outlook.com'],
+            ['user.name+anything@outlook.com', 'user.name@outlook.com'],
+            ['user.name+verylongtag@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag.with.dots@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag-with-hyphens@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag_with_underscores@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag123@outlook.com', 'user.name@outlook.com'],
+            // Hotmail
+            ['user.name+tag@hotmail.com', 'user.name@outlook.com'],
+            ['user.name+spam@hotmail.com', 'user.name@outlook.com'],
+            ['user.name@hotmail.com', 'user.name@outlook.com'],
+            // Live
+            ['user.name+tag@live.com', 'user.name@outlook.com'],
+            ['user.name+spam@live.com', 'user.name@outlook.com'],
+            ['user.name@live.com', 'user.name@outlook.com'],
+            // UK variants
+            ['user.name+tag@outlook.co.uk', 'user.name@outlook.com'],
+            ['user.name+tag@hotmail.co.uk', 'user.name@outlook.com'],
+            ['user.name+tag@live.co.uk', 'user.name@outlook.com'],
+            // Dots are preserved for Outlook
+            ['user.name@outlook.com', 'user.name@outlook.com'],
+            ['u.s.e.r.n.a.m.e@outlook.com', 'u.s.e.r.n.a.m.e@outlook.com'],
+            // Edge cases
+            ['user+@outlook.com', 'user@outlook.com'],
+            ['user.@outlook.com', 'user.@outlook.com'],
+            ['.user@outlook.com', '.user@outlook.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_yahoo_aliases(): void
+    {
+        $testCases = [
+            // Yahoo plus addressing and hyphen removal
+            ['user.name+tag@yahoo.com', 'username@yahoo.com'],
+            ['user.name+spam@yahoo.com', 'username@yahoo.com'],
+            ['user.name+newsletter@yahoo.com', 'username@yahoo.com'],
+            ['user.name+work@yahoo.com', 'username@yahoo.com'],
+            ['user.name+personal@yahoo.com', 'username@yahoo.com'],
+            ['user.name+test123@yahoo.com', 'username@yahoo.com'],
+            ['user.name+anything@yahoo.com', 'username@yahoo.com'],
+            ['user.name+verylongtag@yahoo.com', 'username@yahoo.com'],
+            ['user.name+tag.with.dots@yahoo.com', 'username@yahoo.com'],
+            ['user.name+tag-with-hyphens@yahoo.com', 'username@yahoo.com'],
+            ['user.name+tag_with_underscores@yahoo.com', 'username@yahoo.com'],
+            ['user.name+tag123@yahoo.com', 'username@yahoo.com'],
+            // Hyphen removal
+            ['user-name@yahoo.com', 'username@yahoo.com'],
+            ['user-name+tag@yahoo.com', 'username@yahoo.com'],
+            ['user-name+spam@yahoo.com', 'username@yahoo.com'],
+            ['user-name+newsletter@yahoo.com', 'username@yahoo.com'],
+            ['user-name+work@yahoo.com', 'username@yahoo.com'],
+            ['user-name+personal@yahoo.com', 'username@yahoo.com'],
+            ['user-name+test123@yahoo.com', 'username@yahoo.com'],
+            ['user-name+anything@yahoo.com', 'username@yahoo.com'],
+            ['user-name+verylongtag@yahoo.com', 'username@yahoo.com'],
+            ['user-name+tag.with.dots@yahoo.com', 'username@yahoo.com'],
+            ['user-name+tag-with-hyphens@yahoo.com', 'username@yahoo.com'],
+            ['user-name+tag_with_underscores@yahoo.com', 'username@yahoo.com'],
+            ['user-name+tag123@yahoo.com', 'username@yahoo.com'],
+            // Multiple hyphens
+            ['u-s-e-r-n-a-m-e@yahoo.com', 'username@yahoo.com'],
+            ['u-s-e-r-n-a-m-e+tag@yahoo.com', 'username@yahoo.com'],
+            // Other Yahoo domains
+            ['user.name+tag@yahoo.co.uk', 'username@yahoo.com'],
+            ['user.name+tag@yahoo.ca', 'username@yahoo.com'],
+            ['user.name+tag@ymail.com', 'username@yahoo.com'],
+            ['user.name+tag@rocketmail.com', 'username@yahoo.com'],
+            // Edge cases
+            ['user+@yahoo.com', 'user@yahoo.com'],
+            ['user-@yahoo.com', 'user@yahoo.com'],
+            ['user.@yahoo.com', 'user.@yahoo.com'],
+            ['.user@yahoo.com', '.user@yahoo.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_icloud_aliases(): void
+    {
+        $testCases = [
+            // iCloud plus addressing
+            ['user.name+tag@icloud.com', 'username@icloud.com'],
+            ['user.name+spam@icloud.com', 'username@icloud.com'],
+            ['user.name+newsletter@icloud.com', 'username@icloud.com'],
+            ['user.name+work@icloud.com', 'username@icloud.com'],
+            ['user.name+personal@icloud.com', 'username@icloud.com'],
+            ['user.name+test123@icloud.com', 'username@icloud.com'],
+            ['user.name+anything@icloud.com', 'username@icloud.com'],
+            ['user.name+verylongtag@icloud.com', 'username@icloud.com'],
+            ['user.name+tag.with.dots@icloud.com', 'username@icloud.com'],
+            ['user.name+tag-with-hyphens@icloud.com', 'username@icloud.com'],
+            ['user.name+tag_with_underscores@icloud.com', 'username@icloud.com'],
+            ['user.name+tag123@icloud.com', 'username@icloud.com'],
+            // Other Apple domains
+            ['user.name+tag@me.com', 'username@icloud.com'],
+            ['user.name+tag@mac.com', 'username@icloud.com'],
+            // Dots are preserved for iCloud
+            ['user.name@icloud.com', 'user.name@icloud.com'],
+            ['u.s.e.r.n.a.m.e@icloud.com', 'u.s.e.r.n.a.m.e@icloud.com'],
+            // Edge cases
+            ['user+@icloud.com', 'user@icloud.com'],
+            ['user.@icloud.com', 'user.@icloud.com'],
+            ['.user@icloud.com', '.user@icloud.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_protonmail_aliases(): void
+    {
+        $testCases = [
+            // ProtonMail plus addressing
+            ['user.name+tag@protonmail.com', 'username@protonmail.com'],
+            ['user.name+spam@protonmail.com', 'username@protonmail.com'],
+            ['user.name+newsletter@protonmail.com', 'username@protonmail.com'],
+            ['user.name+work@protonmail.com', 'username@protonmail.com'],
+            ['user.name+personal@protonmail.com', 'username@protonmail.com'],
+            ['user.name+test123@protonmail.com', 'username@protonmail.com'],
+            ['user.name+anything@protonmail.com', 'username@protonmail.com'],
+            ['user.name+verylongtag@protonmail.com', 'username@protonmail.com'],
+            ['user.name+tag.with.dots@protonmail.com', 'username@protonmail.com'],
+            ['user.name+tag-with-hyphens@protonmail.com', 'username@protonmail.com'],
+            ['user.name+tag_with_underscores@protonmail.com', 'username@protonmail.com'],
+            ['user.name+tag123@protonmail.com', 'username@protonmail.com'],
+            // Other ProtonMail domains
+            ['user.name+tag@proton.me', 'username@protonmail.com'],
+            ['user.name+tag@pm.me', 'username@protonmail.com'],
+            // Dots are preserved for ProtonMail
+            ['user.name@protonmail.com', 'user.name@protonmail.com'],
+            ['u.s.e.r.n.a.m.e@protonmail.com', 'u.s.e.r.n.a.m.e@protonmail.com'],
+            // Edge cases
+            ['user+@protonmail.com', 'user@protonmail.com'],
+            ['user.@protonmail.com', 'user.@protonmail.com'],
+            ['.user@protonmail.com', '.user@protonmail.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_fastmail_aliases(): void
+    {
+        $testCases = [
+            // Fastmail plus addressing
+            ['user.name+tag@fastmail.com', 'username@fastmail.com'],
+            ['user.name+spam@fastmail.com', 'username@fastmail.com'],
+            ['user.name+newsletter@fastmail.com', 'username@fastmail.com'],
+            ['user.name+work@fastmail.com', 'username@fastmail.com'],
+            ['user.name+personal@fastmail.com', 'username@fastmail.com'],
+            ['user.name+test123@fastmail.com', 'username@fastmail.com'],
+            ['user.name+anything@fastmail.com', 'username@fastmail.com'],
+            ['user.name+verylongtag@fastmail.com', 'username@fastmail.com'],
+            ['user.name+tag.with.dots@fastmail.com', 'username@fastmail.com'],
+            ['user.name+tag-with-hyphens@fastmail.com', 'username@fastmail.com'],
+            ['user.name+tag_with_underscores@fastmail.com', 'username@fastmail.com'],
+            ['user.name+tag123@fastmail.com', 'username@fastmail.com'],
+            // Other Fastmail domain
+            ['user.name+tag@fastmail.fm', 'username@fastmail.com'],
+            // Dots are preserved for Fastmail
+            ['user.name@fastmail.com', 'user.name@fastmail.com'],
+            ['u.s.e.r.n.a.m.e@fastmail.com', 'u.s.e.r.n.a.m.e@fastmail.com'],
+            // Edge cases
+            ['user+@fastmail.com', 'user@fastmail.com'],
+            ['user.@fastmail.com', 'user.@fastmail.com'],
+            ['.user@fastmail.com', '.user@fastmail.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_other_domains(): void
+    {
+        $testCases = [
+            // Other domains with plus addressing
+            ['user.name+tag@example.com', 'username@example.com'],
+            ['user.name+spam@example.com', 'username@example.com'],
+            ['user.name+newsletter@example.com', 'username@example.com'],
+            ['user.name+work@example.com', 'username@example.com'],
+            ['user.name+personal@example.com', 'username@example.com'],
+            ['user.name+test123@example.com', 'username@example.com'],
+            ['user.name+anything@example.com', 'username@example.com'],
+            ['user.name+verylongtag@example.com', 'username@example.com'],
+            ['user.name+tag.with.dots@example.com', 'username@example.com'],
+            ['user.name+tag-with-hyphens@example.com', 'username@example.com'],
+            ['user.name+tag_with_underscores@example.com', 'username@example.com'],
+            ['user.name+tag123@example.com', 'username@example.com'],
+            // Dots are preserved for other domains
+            ['user.name@example.com', 'user.name@example.com'],
+            ['u.s.e.r.n.a.m.e@example.com', 'u.s.e.r.n.a.m.e@example.com'],
+            // Hyphens are preserved for other domains
+            ['user-name@example.com', 'user-name@example.com'],
+            ['user-name+tag@example.com', 'username@example.com'],
+            // Edge cases
+            ['user+@example.com', 'user@example.com'],
+            ['user.@example.com', 'user.@example.com'],
+            ['.user@example.com', '.user@example.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_edge_cases(): void
+    {
+        $testCases = [
+            // Empty plus addressing
+            ['user+@gmail.com', 'user@gmail.com'],
+            ['user+@outlook.com', 'user@outlook.com'],
+            ['user+@yahoo.com', 'user@yahoo.com'],
+            ['user+@icloud.com', 'user@icloud.com'],
+            ['user+@protonmail.com', 'user@protonmail.com'],
+            ['user+@fastmail.com', 'user@fastmail.com'],
+            ['user+@example.com', 'user@example.com'],
+            // Plus at the beginning
+            ['+user@gmail.com', '+user@gmail.com'],
+            ['+user@outlook.com', '+user@outlook.com'],
+            ['+user@yahoo.com', '+user@yahoo.com'],
+            ['+user@icloud.com', '+user@icloud.com'],
+            ['+user@protonmail.com', '+user@protonmail.com'],
+            ['+user@fastmail.com', '+user@fastmail.com'],
+            ['+user@example.com', '+user@example.com'],
+            // Multiple plus signs (only first one is considered)
+            ['user+tag+more@gmail.com', 'user@gmail.com'],
+            ['user+tag+more@outlook.com', 'user@outlook.com'],
+            ['user+tag+more@yahoo.com', 'user@yahoo.com'],
+            ['user+tag+more@icloud.com', 'user@icloud.com'],
+            ['user+tag+more@protonmail.com', 'user@protonmail.com'],
+            ['user+tag+more@fastmail.com', 'user@fastmail.com'],
+            ['user+tag+more@example.com', 'user@example.com'],
+            // Special characters in plus addressing
+            ['user+tag!@gmail.com', 'user@gmail.com'],
+            ['user+tag#@gmail.com', 'user@gmail.com'],
+            ['user+tag$@gmail.com', 'user@gmail.com'],
+            ['user+tag%@gmail.com', 'user@gmail.com'],
+            ['user+tag&@gmail.com', 'user@gmail.com'],
+            ['user+tag*@gmail.com', 'user@gmail.com'],
+            ['user+tag(@gmail.com', 'user@gmail.com'],
+            ['user+tag)@gmail.com', 'user@gmail.com'],
+            ['user+tag=@gmail.com', 'user@gmail.com'],
+            ['user+tag[@gmail.com', 'user@gmail.com'],
+            ['user+tag]@gmail.com', 'user@gmail.com'],
+            ['user+tag{@gmail.com', 'user@gmail.com'],
+            ['user+tag}@gmail.com', 'user@gmail.com'],
+            ['user+tag|@gmail.com', 'user@gmail.com'],
+            ['user+tag\@gmail.com', 'user@gmail.com'],
+            ['user+tag/@gmail.com', 'user@gmail.com'],
+            ['user+tag?@gmail.com', 'user@gmail.com'],
+            ['user+tag<@gmail.com', 'user@gmail.com'],
+            ['user+tag>@gmail.com', 'user@gmail.com'],
+            ['user+tag,@gmail.com', 'user@gmail.com'],
+            ['user+tag;@gmail.com', 'user@gmail.com'],
+            ['user+tag:@gmail.com', 'user@gmail.com'],
+            ['user+tag"@gmail.com', 'user@gmail.com'],
+            ['user+tag\'@gmail.com', 'user@gmail.com'],
+            ['user+tag~@gmail.com', 'user@gmail.com'],
+            ['user+tag`@gmail.com', 'user@gmail.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_get_unique_case_sensitivity(): void
+    {
+        $testCases = [
+            // Case sensitivity should not matter
+            ['USER.NAME+TAG@GMAIL.COM', 'username@gmail.com'],
+            ['User.Name+Tag@Gmail.Com', 'username@gmail.com'],
+            ['user.name+tag@Gmail.com', 'username@gmail.com'],
+            ['USER.NAME+TAG@OUTLOOK.COM', 'user.name@outlook.com'],
+            ['User.Name+Tag@Outlook.Com', 'user.name@outlook.com'],
+            ['user.name+tag@Outlook.com', 'user.name@outlook.com'],
+            ['USER.NAME+TAG@YAHOO.COM', 'username@yahoo.com'],
+            ['User.Name+Tag@Yahoo.Com', 'username@yahoo.com'],
+            ['user.name+tag@Yahoo.com', 'username@yahoo.com'],
+            ['USER.NAME+TAG@ICLOUD.COM', 'username@icloud.com'],
+            ['User.Name+Tag@Icloud.Com', 'username@icloud.com'],
+            ['user.name+tag@Icloud.com', 'username@icloud.com'],
+            ['USER.NAME+TAG@PROTONMAIL.COM', 'username@protonmail.com'],
+            ['User.Name+Tag@Protonmail.Com', 'username@protonmail.com'],
+            ['user.name+tag@Protonmail.com', 'username@protonmail.com'],
+            ['USER.NAME+TAG@FASTMAIL.COM', 'username@fastmail.com'],
+            ['User.Name+Tag@Fastmail.Com', 'username@fastmail.com'],
+            ['user.name+tag@Fastmail.com', 'username@fastmail.com'],
+            ['USER.NAME+TAG@EXAMPLE.COM', 'username@example.com'],
+            ['User.Name+Tag@Example.Com', 'username@example.com'],
+            ['user.name+tag@Example.com', 'username@example.com'],
+        ];
+
+        foreach ($testCases as [$input, $expected]) {
+            $email = new Email($input);
+            $this->assertEquals($expected, $email->getUnique(), "Failed for input: {$input}");
+        }
+    }
+
+    public function test_is_normalization_supported(): void
+    {
+        $supportedEmails = [
+            'user@gmail.com',
+            'user@googlemail.com',
+            'user@outlook.com',
+            'user@hotmail.com',
+            'user@live.com',
+            'user@outlook.co.uk',
+            'user@hotmail.co.uk',
+            'user@live.co.uk',
+            'user@yahoo.com',
+            'user@yahoo.co.uk',
+            'user@yahoo.ca',
+            'user@ymail.com',
+            'user@rocketmail.com',
+            'user@icloud.com',
+            'user@me.com',
+            'user@mac.com',
+            'user@protonmail.com',
+            'user@proton.me',
+            'user@pm.me',
+            'user@fastmail.com',
+            'user@fastmail.fm',
+        ];
+
+        foreach ($supportedEmails as $emailAddress) {
+            $email = new Email($emailAddress);
+            $this->assertTrue($email->isNormalizationSupported(), "Email {$emailAddress} should support normalization");
+        }
+
+        $unsupportedEmails = [
+            'user@example.com',
+            'user@test.org',
+            'user@company.net',
+            'user@business.co.uk',
+        ];
+
+        foreach ($unsupportedEmails as $emailAddress) {
+            $email = new Email($emailAddress);
+            $this->assertFalse($email->isNormalizationSupported(), "Email {$emailAddress} should not support normalization");
+        }
+    }
+
+    public function test_get_canonical_domain(): void
+    {
+        $testCases = [
+            ['user@gmail.com', 'gmail.com'],
+            ['user@googlemail.com', 'gmail.com'],
+            ['user@outlook.com', 'outlook.com'],
+            ['user@hotmail.com', 'outlook.com'],
+            ['user@live.com', 'outlook.com'],
+            ['user@outlook.co.uk', 'outlook.com'],
+            ['user@hotmail.co.uk', 'outlook.com'],
+            ['user@live.co.uk', 'outlook.com'],
+            ['user@yahoo.com', 'yahoo.com'],
+            ['user@yahoo.co.uk', 'yahoo.com'],
+            ['user@yahoo.ca', 'yahoo.com'],
+            ['user@ymail.com', 'yahoo.com'],
+            ['user@rocketmail.com', 'yahoo.com'],
+            ['user@icloud.com', 'icloud.com'],
+            ['user@me.com', 'icloud.com'],
+            ['user@mac.com', 'icloud.com'],
+            ['user@protonmail.com', 'protonmail.com'],
+            ['user@proton.me', 'protonmail.com'],
+            ['user@pm.me', 'protonmail.com'],
+            ['user@fastmail.com', 'fastmail.com'],
+            ['user@fastmail.fm', 'fastmail.com'],
+            ['user@example.com', null],
+            ['user@test.org', null],
+            ['user@company.net', null],
+            ['user@business.co.uk', null],
+        ];
+
+        foreach ($testCases as [$emailAddress, $expectedCanonical]) {
+            $email = new Email($emailAddress);
+            $this->assertEquals($expectedCanonical, $email->getCanonicalDomain(), "Failed for email: {$emailAddress}");
+        }
+    }
+
+    public function test_get_unique_with_different_providers(): void
+    {
+        // Test that different providers are used correctly
+        $gmailEmail = new Email('user.name+tag@gmail.com');
+        $this->assertEquals('username@gmail.com', $gmailEmail->getUnique());
+
+        $outlookEmail = new Email('user.name+tag@outlook.com');
+        $this->assertEquals('user.name@outlook.com', $outlookEmail->getUnique());
+
+        $yahooEmail = new Email('user-name+tag@yahoo.com');
+        $this->assertEquals('username@yahoo.com', $yahooEmail->getUnique());
+
+        $genericEmail = new Email('user.name+tag@example.com');
+        $this->assertEquals('username@example.com', $genericEmail->getUnique());
+    }
 }

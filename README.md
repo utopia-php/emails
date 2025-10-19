@@ -1,6 +1,8 @@
 # Utopia Emails
 
-[![Build Status](https://travis-ci.org/utopia-php/emails.svg?branch=master)](https://travis-ci.com/utopia-php/emails)
+[![Tests](https://github.com/utopia-php/emails/workflows/Tests/badge.svg)](https://github.com/utopia-php/emails/actions/workflows/test.yml)
+[![Linter](https://github.com/utopia-php/emails/workflows/Linter/badge.svg)](https://github.com/utopia-php/emails/actions/workflows/linter.yml)
+[![CodeQL](https://github.com/utopia-php/emails/workflows/CodeQL/badge.svg)](https://github.com/utopia-php/emails/actions/workflows/codeql-analysis.yml)
 ![Total Downloads](https://img.shields.io/packagist/dt/utopia-php/emails.svg)
 [![Discord](https://img.shields.io/discord/564160730845151244)](https://appwrite.io/discord)
 
