@@ -27,30 +27,29 @@ class ProtonmailTest extends TestCase
     public function test_get_canonical(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of ProtonMail's plus addressing and dots support
-            // ['user.name+tag', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+spam', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+newsletter', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+work', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+personal', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+test123', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+anything', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+verylongtag', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+tag.with.dots', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+tag-with-hyphens', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+tag_with_underscores', 'protonmail.com', 'username', 'protonmail.com'],
-            // ['user.name+tag123', 'protonmail.com', 'username', 'protonmail.com'],
-            // // Other ProtonMail domains
-            // ['user.name+tag', 'proton.me', 'username', 'protonmail.com'],
-            // ['user.name+tag', 'pm.me', 'username', 'protonmail.com'],
-            // Dots are preserved for ProtonMail
+            // ProtonMail preserves all characters (no subaddress or dot removal)
             ['user.name', 'protonmail.com', 'user.name', 'protonmail.com'],
+            ['user.name+tag', 'protonmail.com', 'user.name+tag', 'protonmail.com'],
+            ['user.name+spam', 'protonmail.com', 'user.name+spam', 'protonmail.com'],
+            ['user.name+newsletter', 'protonmail.com', 'user.name+newsletter', 'protonmail.com'],
+            ['user.name+work', 'protonmail.com', 'user.name+work', 'protonmail.com'],
+            ['user.name+personal', 'protonmail.com', 'user.name+personal', 'protonmail.com'],
+            ['user.name+test123', 'protonmail.com', 'user.name+test123', 'protonmail.com'],
+            ['user.name+anything', 'protonmail.com', 'user.name+anything', 'protonmail.com'],
+            ['user.name+verylongtag', 'protonmail.com', 'user.name+verylongtag', 'protonmail.com'],
+            ['user.name+tag.with.dots', 'protonmail.com', 'user.name+tag.with.dots', 'protonmail.com'],
+            ['user.name+tag-with-hyphens', 'protonmail.com', 'user.name+tag-with-hyphens', 'protonmail.com'],
+            ['user.name+tag_with_underscores', 'protonmail.com', 'user.name+tag_with_underscores', 'protonmail.com'],
+            ['user.name+tag123', 'protonmail.com', 'user.name+tag123', 'protonmail.com'],
             ['u.s.e.r.n.a.m.e', 'protonmail.com', 'u.s.e.r.n.a.m.e', 'protonmail.com'],
-            // Edge cases
-            // ['user+', 'protonmail.com', 'user', 'protonmail.com'],
+            ['u.s.e.r.n.a.m.e+tag', 'protonmail.com', 'u.s.e.r.n.a.m.e+tag', 'protonmail.com'],
+            ['user+', 'protonmail.com', 'user+', 'protonmail.com'],
             ['user.', 'protonmail.com', 'user.', 'protonmail.com'],
             ['.user', 'protonmail.com', '.user', 'protonmail.com'],
+            ['user..name', 'protonmail.com', 'user..name', 'protonmail.com'],
             // Other ProtonMail domains
+            ['user.name+tag', 'proton.me', 'user.name+tag', 'protonmail.com'],
+            ['user.name+tag', 'pm.me', 'user.name+tag', 'protonmail.com'],
             ['user.name', 'proton.me', 'user.name', 'protonmail.com'],
             ['user.name', 'pm.me', 'user.name', 'protonmail.com'],
         ];

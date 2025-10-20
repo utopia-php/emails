@@ -7,10 +7,11 @@ use Utopia\Emails\Canonicals\Provider;
 /**
  * Gmail
  *
- * Handles Gmail and Googlemail email normalization
+ * Handles Gmail and Googlemail email normalization based on validator.js rules
  * - Removes all dots from local part
- * - Removes plus addressing
+ * - Removes plus addressing (subaddress)
  * - Normalizes to gmail.com domain
+ * - Converts googlemail.com to gmail.com
  */
 class Gmail extends Provider
 {
@@ -28,11 +29,16 @@ class Gmail extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // Remove all dots from local part
+        // Remove plus addressing (subaddress) - everything after +
+        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+
+        // Remove dots from local part
         $normalizedLocal = $this->removeDots($normalizedLocal);
 
-        // Remove plus addressing (everything after +)
-        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+        // Ensure local part is not empty after normalization
+        if (empty($normalizedLocal)) {
+            throw new \InvalidArgumentException('Email local part cannot be empty after normalization');
+        }
 
         return [
             'local' => $normalizedLocal,

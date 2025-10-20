@@ -26,28 +26,29 @@ class FastmailTest extends TestCase
     public function test_get_canonical(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of Fastmail's plus addressing and dots support
-            // ['user.name+tag', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+spam', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+newsletter', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+work', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+personal', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+test123', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+anything', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+verylongtag', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+tag.with.dots', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+tag-with-hyphens', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+tag_with_underscores', 'fastmail.com', 'username', 'fastmail.com'],
-            // ['user.name+tag123', 'fastmail.com', 'username', 'fastmail.com'],
-            // // Other Fastmail domain
-            // ['user.name+tag', 'fastmail.fm', 'username', 'fastmail.com'],
-            // Dots are preserved for Fastmail
+            // Fastmail preserves all characters (no subaddress or dot removal)
             ['user.name', 'fastmail.com', 'user.name', 'fastmail.com'],
+            ['user.name+tag', 'fastmail.com', 'user.name+tag', 'fastmail.com'],
+            ['user.name+spam', 'fastmail.com', 'user.name+spam', 'fastmail.com'],
+            ['user.name+newsletter', 'fastmail.com', 'user.name+newsletter', 'fastmail.com'],
+            ['user.name+work', 'fastmail.com', 'user.name+work', 'fastmail.com'],
+            ['user.name+personal', 'fastmail.com', 'user.name+personal', 'fastmail.com'],
+            ['user.name+test123', 'fastmail.com', 'user.name+test123', 'fastmail.com'],
+            ['user.name+anything', 'fastmail.com', 'user.name+anything', 'fastmail.com'],
+            ['user.name+verylongtag', 'fastmail.com', 'user.name+verylongtag', 'fastmail.com'],
+            ['user.name+tag.with.dots', 'fastmail.com', 'user.name+tag.with.dots', 'fastmail.com'],
+            ['user.name+tag-with-hyphens', 'fastmail.com', 'user.name+tag-with-hyphens', 'fastmail.com'],
+            ['user.name+tag_with_underscores', 'fastmail.com', 'user.name+tag_with_underscores', 'fastmail.com'],
+            ['user.name+tag123', 'fastmail.com', 'user.name+tag123', 'fastmail.com'],
             ['u.s.e.r.n.a.m.e', 'fastmail.com', 'u.s.e.r.n.a.m.e', 'fastmail.com'],
-            // Edge cases
-            // ['user+', 'fastmail.com', 'user', 'fastmail.com'],
+            ['u.s.e.r.n.a.m.e+tag', 'fastmail.com', 'u.s.e.r.n.a.m.e+tag', 'fastmail.com'],
+            ['user+', 'fastmail.com', 'user+', 'fastmail.com'],
             ['user.', 'fastmail.com', 'user.', 'fastmail.com'],
             ['.user', 'fastmail.com', '.user', 'fastmail.com'],
+            ['user..name', 'fastmail.com', 'user..name', 'fastmail.com'],
+            // Other Fastmail domain
+            ['user.name+tag', 'fastmail.fm', 'user.name+tag', 'fastmail.com'],
+            ['user.name', 'fastmail.fm', 'user.name', 'fastmail.com'],
         ];
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {

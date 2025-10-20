@@ -8,8 +8,7 @@ use Utopia\Emails\Canonicals\Provider;
  * Fastmail
  *
  * Handles Fastmail email normalization
- * - TODO: Plus addressing and dots removal commented out until manual confirmation
- * - Preserves dots and hyphens in local part
+ * - Preserves all characters in local part (no subaddress or dot removal)
  * - Normalizes to fastmail.com domain
  */
 class Fastmail extends Provider
@@ -28,17 +27,8 @@ class Fastmail extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // TODO: Commented out until manual confirmation of Fastmail's plus addressing and dots support
-        // Check if there's plus addressing
-        // $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
-
-        // Remove plus addressing (everything after +)
-        // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
-
-        // Remove dots only if there was plus addressing (Fastmail treats dots as aliases only with plus)
-        // if ($hasPlus) {
-        //     $normalizedLocal = $this->removeDots($normalizedLocal);
-        // }
+        // Fastmail doesn't remove subaddresses or dots
+        // Just normalize case and domain
 
         return [
             'local' => $normalizedLocal,

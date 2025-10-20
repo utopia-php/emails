@@ -48,6 +48,7 @@ abstract class Provider
 
     /**
      * Remove all dots from local part
+     * Can be overridden by providers for custom behavior
      */
     protected function removeDots(string $local): string
     {
@@ -60,6 +61,17 @@ abstract class Provider
     protected function removeHyphens(string $local): string
     {
         return str_replace('-', '', $local);
+    }
+
+    /**
+     * Remove hyphen-based subaddress (Yahoo style)
+     * Removes everything after the last hyphen
+     */
+    protected function removeHyphenSubaddress(string $local): string
+    {
+        $components = explode('-', $local);
+
+        return count($components) > 1 ? implode('-', array_slice($components, 0, -1)) : $components[0];
     }
 
     /**
