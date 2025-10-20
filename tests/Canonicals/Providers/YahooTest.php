@@ -29,56 +29,43 @@ class YahooTest extends TestCase
     public function test_get_canonical(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of Yahoo's plus addressing, dots, and hyphens support
-            // ['user.name+tag', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+spam', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+newsletter', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+work', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+personal', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+test123', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+anything', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+verylongtag', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+tag.with.dots', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+tag-with-hyphens', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+tag_with_underscores', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user.name+tag123', 'yahoo.com', 'username', 'yahoo.com'],
-            // // Hyphen removal
-            // ['user-name', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+tag', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+spam', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+newsletter', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+work', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+personal', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+test123', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+anything', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+verylongtag', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+tag.with.dots', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+tag-with-hyphens', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+tag_with_underscores', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['user-name+tag123', 'yahoo.com', 'username', 'yahoo.com'],
-            // // Multiple hyphens
-            // ['u-s-e-r-n-a-m-e', 'yahoo.com', 'username', 'yahoo.com'],
-            // ['u-s-e-r-n-a-m-e+tag', 'yahoo.com', 'username', 'yahoo.com'],
-            // // Other Yahoo domains
-            // ['user.name+tag', 'yahoo.co.uk', 'username', 'yahoo.com'],
-            // ['user.name+tag', 'yahoo.ca', 'username', 'yahoo.com'],
-            // ['user.name+tag', 'ymail.com', 'username', 'yahoo.com'],
-            // ['user.name+tag', 'rocketmail.com', 'username', 'yahoo.com'],
-            // // Edge cases
-            // ['user+', 'yahoo.com', 'user', 'yahoo.com'],
-            // ['user-', 'yahoo.com', 'user', 'yahoo.com'],
-            // Dots and hyphens are preserved for Yahoo
+            // Hyphen-based subaddress removal (Yahoo style)
+            ['user-name', 'yahoo.com', 'user', 'yahoo.com'],
+            ['user-name-tag', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-spam', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-newsletter', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-work', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-personal', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-test123', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-anything', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-verylongtag', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-tag.with.dots', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-tag-with-hyphens', 'yahoo.com', 'user-name-tag-with', 'yahoo.com'],
+            ['user-name-tag_with_underscores', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user-name-tag123', 'yahoo.com', 'user-name', 'yahoo.com'],
+            // Multiple hyphens
+            ['u-s-e-r-n-a-m-e', 'yahoo.com', 'u-s-e-r-n-a-m', 'yahoo.com'],
+            ['u-s-e-r-n-a-m-e-tag', 'yahoo.com', 'u-s-e-r-n-a-m-e', 'yahoo.com'],
+            // Dots are preserved for Yahoo
             ['user.name', 'yahoo.com', 'user.name', 'yahoo.com'],
-            ['user-name', 'yahoo.com', 'user-name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.com', 'user.name', 'yahoo.com'],
             ['u.s.e.r.n.a.m.e', 'yahoo.com', 'u.s.e.r.n.a.m.e', 'yahoo.com'],
-            ['u-s-e-r-n-a-m-e', 'yahoo.com', 'u-s-e-r-n-a-m-e', 'yahoo.com'],
+            ['u.s.e.r.n.a.m.e-tag', 'yahoo.com', 'u.s.e.r.n.a.m.e', 'yahoo.com'],
             ['user.', 'yahoo.com', 'user.', 'yahoo.com'],
             ['.user', 'yahoo.com', '.user', 'yahoo.com'],
+            // Edge cases
+            ['user-', 'yahoo.com', 'user', 'yahoo.com'],
+            ['user--tag', 'yahoo.com', 'user-', 'yahoo.com'],
             // Other Yahoo domains
-            ['user.name', 'yahoo.co.uk', 'user.name', 'yahoo.com'],
-            ['user.name', 'yahoo.ca', 'user.name', 'yahoo.com'],
-            ['user.name', 'ymail.com', 'user.name', 'yahoo.com'],
-            ['user.name', 'rocketmail.com', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.co.uk', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.ca', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'ymail.com', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'rocketmail.com', 'user.name', 'yahoo.com'],
+            // Additional domains from validator.js
+            ['user.name-tag', 'yahoo.de', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.fr', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.in', 'user.name', 'yahoo.com'],
+            ['user.name-tag', 'yahoo.it', 'user.name', 'yahoo.com'],
         ];
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
@@ -96,7 +83,7 @@ class YahooTest extends TestCase
     public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
-        $expected = ['yahoo.com', 'yahoo.co.uk', 'yahoo.ca', 'ymail.com', 'rocketmail.com'];
+        $expected = ['yahoo.com', 'yahoo.co.uk', 'yahoo.ca', 'yahoo.de', 'yahoo.fr', 'yahoo.in', 'yahoo.it', 'ymail.com', 'rocketmail.com'];
         $this->assertEquals($expected, $domains);
     }
 }

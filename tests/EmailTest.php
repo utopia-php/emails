@@ -409,37 +409,36 @@ class EmailTest extends TestCase
     public function test_get_unique_outlook_aliases(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of Outlook's plus addressing support
-            // // Outlook/Hotmail/Live plus addressing
-            // ['user.name+tag@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+spam@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+newsletter@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+work@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+personal@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+test123@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+anything@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+verylongtag@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+tag.with.dots@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+tag-with-hyphens@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+tag_with_underscores@outlook.com', 'user.name@outlook.com'],
-            // ['user.name+tag123@outlook.com', 'user.name@outlook.com'],
-            // // Hotmail
-            // ['user.name+tag@hotmail.com', 'user.name@outlook.com'],
-            // ['user.name+spam@hotmail.com', 'user.name@outlook.com'],
-            // ['user.name@hotmail.com', 'user.name@outlook.com'],
-            // // Live
-            // ['user.name+tag@live.com', 'user.name@outlook.com'],
-            // ['user.name+spam@live.com', 'user.name@outlook.com'],
-            // ['user.name@live.com', 'user.name@outlook.com'],
-            // // UK variants
-            // ['user.name+tag@outlook.co.uk', 'user.name@outlook.com'],
-            // ['user.name+tag@hotmail.co.uk', 'user.name@outlook.com'],
-            // ['user.name+tag@live.co.uk', 'user.name@outlook.com'],
+            // Outlook/Hotmail/Live plus addressing
+            ['user.name+tag@outlook.com', 'user.name@outlook.com'],
+            ['user.name+spam@outlook.com', 'user.name@outlook.com'],
+            ['user.name+newsletter@outlook.com', 'user.name@outlook.com'],
+            ['user.name+work@outlook.com', 'user.name@outlook.com'],
+            ['user.name+personal@outlook.com', 'user.name@outlook.com'],
+            ['user.name+test123@outlook.com', 'user.name@outlook.com'],
+            ['user.name+anything@outlook.com', 'user.name@outlook.com'],
+            ['user.name+verylongtag@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag.with.dots@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag-with-hyphens@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag_with_underscores@outlook.com', 'user.name@outlook.com'],
+            ['user.name+tag123@outlook.com', 'user.name@outlook.com'],
+            // Hotmail
+            ['user.name+tag@hotmail.com', 'user.name@outlook.com'],
+            ['user.name+spam@hotmail.com', 'user.name@outlook.com'],
+            ['user.name@hotmail.com', 'user.name@outlook.com'],
+            // Live
+            ['user.name+tag@live.com', 'user.name@outlook.com'],
+            ['user.name+spam@live.com', 'user.name@outlook.com'],
+            ['user.name@live.com', 'user.name@outlook.com'],
+            // UK variants
+            ['user.name+tag@outlook.co.uk', 'user.name@outlook.com'],
+            ['user.name+tag@hotmail.co.uk', 'user.name@outlook.com'],
+            ['user.name+tag@live.co.uk', 'user.name@outlook.com'],
             // Dots are preserved for Outlook
             ['user.name@outlook.com', 'user.name@outlook.com'],
             ['u.s.e.r.n.a.m.e@outlook.com', 'u.s.e.r.n.a.m.e@outlook.com'],
             // Edge cases
-            // ['user+@outlook.com', 'user@outlook.com'],
+            ['user+@outlook.com', 'user@outlook.com'],
             ['user.@outlook.com', 'user.@outlook.com'],
             ['.user@outlook.com', '.user@outlook.com'],
             // Hotmail
@@ -461,50 +460,35 @@ class EmailTest extends TestCase
     public function test_get_unique_yahoo_aliases(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of Yahoo's plus addressing, dots, and hyphens support
-            // // Yahoo plus addressing and hyphen removal
-            // ['user.name+tag@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+spam@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+newsletter@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+work@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+personal@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+test123@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+anything@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+verylongtag@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+tag.with.dots@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+tag-with-hyphens@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+tag_with_underscores@yahoo.com', 'username@yahoo.com'],
-            // ['user.name+tag123@yahoo.com', 'username@yahoo.com'],
-            // // Hyphen removal
-            // ['user-name@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+tag@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+spam@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+newsletter@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+work@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+personal@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+test123@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+anything@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+verylongtag@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+tag.with.dots@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+tag-with-hyphens@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+tag_with_underscores@yahoo.com', 'username@yahoo.com'],
-            // ['user-name+tag123@yahoo.com', 'username@yahoo.com'],
-            // // Multiple hyphens
-            // ['u-s-e-r-n-a-m-e@yahoo.com', 'username@yahoo.com'],
-            // ['u-s-e-r-n-a-m-e+tag@yahoo.com', 'username@yahoo.com'],
-            // // Other Yahoo domains
-            // ['user.name+tag@yahoo.co.uk', 'username@yahoo.com'],
-            // ['user.name+tag@yahoo.ca', 'username@yahoo.com'],
-            // ['user.name+tag@ymail.com', 'username@yahoo.com'],
-            // ['user.name+tag@rocketmail.com', 'username@yahoo.com'],
-            // // Edge cases
-            // ['user+@yahoo.com', 'user@yahoo.com'],
-            // ['user-@yahoo.com', 'user@yahoo.com'],
-            // Dots and hyphens are preserved for Yahoo
+            // Yahoo hyphen-based subaddress removal
+            ['user-name@yahoo.com', 'user@yahoo.com'],
+            ['user-name-tag@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-spam@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-newsletter@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-work@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-personal@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-test123@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-anything@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-verylongtag@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-tag.with.dots@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-tag-with-hyphens@yahoo.com', 'user-name-tag-with@yahoo.com'],
+            ['user-name-tag_with_underscores@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name-tag123@yahoo.com', 'user-name@yahoo.com'],
+            // Multiple hyphens
+            ['u-s-e-r-n-a-m-e@yahoo.com', 'u-s-e-r-n-a-m@yahoo.com'],
+            ['u-s-e-r-n-a-m-e-tag@yahoo.com', 'u-s-e-r-n-a-m-e@yahoo.com'],
+            // Other Yahoo domains
+            ['user-name-tag@yahoo.co.uk', 'user-name@yahoo.com'],
+            ['user-name-tag@yahoo.ca', 'user-name@yahoo.com'],
+            ['user-name-tag@ymail.com', 'user-name@yahoo.com'],
+            ['user-name-tag@rocketmail.com', 'user-name@yahoo.com'],
+            // Edge cases
+            ['user-@yahoo.com', 'user@yahoo.com'],
+            // Dots are preserved for Yahoo, hyphens are removed as subaddresses
             ['user.name@yahoo.com', 'user.name@yahoo.com'],
-            ['user-name@yahoo.com', 'user-name@yahoo.com'],
+            ['user-name@yahoo.com', 'user@yahoo.com'],
             ['u.s.e.r.n.a.m.e@yahoo.com', 'u.s.e.r.n.a.m.e@yahoo.com'],
-            ['u-s-e-r-n-a-m-e@yahoo.com', 'u-s-e-r-n-a-m-e@yahoo.com'],
+            ['u-s-e-r-n-a-m-e@yahoo.com', 'u-s-e-r-n-a-m@yahoo.com'],
             ['user.@yahoo.com', 'user.@yahoo.com'],
             ['.user@yahoo.com', '.user@yahoo.com'],
             // Other Yahoo domains
@@ -523,28 +507,27 @@ class EmailTest extends TestCase
     public function test_get_unique_icloud_aliases(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of iCloud's plus addressing and dots support
-            // // iCloud plus addressing
-            // ['user.name+tag@icloud.com', 'username@icloud.com'],
-            // ['user.name+spam@icloud.com', 'username@icloud.com'],
-            // ['user.name+newsletter@icloud.com', 'username@icloud.com'],
-            // ['user.name+work@icloud.com', 'username@icloud.com'],
-            // ['user.name+personal@icloud.com', 'username@icloud.com'],
-            // ['user.name+test123@icloud.com', 'username@icloud.com'],
-            // ['user.name+anything@icloud.com', 'username@icloud.com'],
-            // ['user.name+verylongtag@icloud.com', 'username@icloud.com'],
-            // ['user.name+tag.with.dots@icloud.com', 'username@icloud.com'],
-            // ['user.name+tag-with-hyphens@icloud.com', 'username@icloud.com'],
-            // ['user.name+tag_with_underscores@icloud.com', 'username@icloud.com'],
-            // ['user.name+tag123@icloud.com', 'username@icloud.com'],
-            // // Other Apple domains
-            // ['user.name+tag@me.com', 'username@icloud.com'],
-            // ['user.name+tag@mac.com', 'username@icloud.com'],
+            // iCloud plus addressing
+            ['user.name+tag@icloud.com', 'user.name@icloud.com'],
+            ['user.name+spam@icloud.com', 'user.name@icloud.com'],
+            ['user.name+newsletter@icloud.com', 'user.name@icloud.com'],
+            ['user.name+work@icloud.com', 'user.name@icloud.com'],
+            ['user.name+personal@icloud.com', 'user.name@icloud.com'],
+            ['user.name+test123@icloud.com', 'user.name@icloud.com'],
+            ['user.name+anything@icloud.com', 'user.name@icloud.com'],
+            ['user.name+verylongtag@icloud.com', 'user.name@icloud.com'],
+            ['user.name+tag.with.dots@icloud.com', 'user.name@icloud.com'],
+            ['user.name+tag-with-hyphens@icloud.com', 'user.name@icloud.com'],
+            ['user.name+tag_with_underscores@icloud.com', 'user.name@icloud.com'],
+            ['user.name+tag123@icloud.com', 'user.name@icloud.com'],
+            // Other Apple domains
+            ['user.name+tag@me.com', 'user.name@icloud.com'],
+            ['user.name+tag@mac.com', 'user.name@icloud.com'],
             // Dots are preserved for iCloud
             ['user.name@icloud.com', 'user.name@icloud.com'],
             ['u.s.e.r.n.a.m.e@icloud.com', 'u.s.e.r.n.a.m.e@icloud.com'],
             // Edge cases
-            // ['user+@icloud.com', 'user@icloud.com'],
+            ['user+@icloud.com', 'user@icloud.com'],
             ['user.@icloud.com', 'user.@icloud.com'],
             ['.user@icloud.com', '.user@icloud.com'],
             // Other Apple domains
@@ -561,28 +544,27 @@ class EmailTest extends TestCase
     public function test_get_unique_protonmail_aliases(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of ProtonMail's plus addressing and dots support
-            // // ProtonMail plus addressing
-            // ['user.name+tag@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+spam@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+newsletter@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+work@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+personal@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+test123@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+anything@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+verylongtag@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+tag.with.dots@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+tag-with-hyphens@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+tag_with_underscores@protonmail.com', 'username@protonmail.com'],
-            // ['user.name+tag123@protonmail.com', 'username@protonmail.com'],
-            // // Other ProtonMail domains
-            // ['user.name+tag@proton.me', 'username@protonmail.com'],
-            // ['user.name+tag@pm.me', 'username@protonmail.com'],
-            // Dots are preserved for ProtonMail
+            // ProtonMail preserves all characters (no subaddress or dot removal)
             ['user.name@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+tag@protonmail.com', 'user.name+tag@protonmail.com'],
+            ['user.name+spam@protonmail.com', 'user.name+spam@protonmail.com'],
+            ['user.name+newsletter@protonmail.com', 'user.name+newsletter@protonmail.com'],
+            ['user.name+work@protonmail.com', 'user.name+work@protonmail.com'],
+            ['user.name+personal@protonmail.com', 'user.name+personal@protonmail.com'],
+            ['user.name+test123@protonmail.com', 'user.name+test123@protonmail.com'],
+            ['user.name+anything@protonmail.com', 'user.name+anything@protonmail.com'],
+            ['user.name+verylongtag@protonmail.com', 'user.name+verylongtag@protonmail.com'],
+            ['user.name+tag.with.dots@protonmail.com', 'user.name+tag.with.dots@protonmail.com'],
+            ['user.name+tag-with-hyphens@protonmail.com', 'user.name+tag-with-hyphens@protonmail.com'],
+            ['user.name+tag_with_underscores@protonmail.com', 'user.name+tag_with_underscores@protonmail.com'],
+            ['user.name+tag123@protonmail.com', 'user.name+tag123@protonmail.com'],
+            // Other ProtonMail domains
+            ['user.name+tag@proton.me', 'user.name+tag@protonmail.com'],
+            ['user.name+tag@pm.me', 'user.name+tag@protonmail.com'],
             ['u.s.e.r.n.a.m.e@protonmail.com', 'u.s.e.r.n.a.m.e@protonmail.com'],
+            ['u.s.e.r.n.a.m.e+tag@protonmail.com', 'u.s.e.r.n.a.m.e+tag@protonmail.com'],
             // Edge cases
-            // ['user+@protonmail.com', 'user@protonmail.com'],
+            ['user+@protonmail.com', 'user+@protonmail.com'],
             ['user.@protonmail.com', 'user.@protonmail.com'],
             ['.user@protonmail.com', '.user@protonmail.com'],
             // Other ProtonMail domains
@@ -599,27 +581,26 @@ class EmailTest extends TestCase
     public function test_get_unique_fastmail_aliases(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of Fastmail's plus addressing and dots support
-            // // Fastmail plus addressing
-            // ['user.name+tag@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+spam@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+newsletter@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+work@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+personal@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+test123@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+anything@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+verylongtag@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+tag.with.dots@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+tag-with-hyphens@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+tag_with_underscores@fastmail.com', 'username@fastmail.com'],
-            // ['user.name+tag123@fastmail.com', 'username@fastmail.com'],
-            // // Other Fastmail domain
-            // ['user.name+tag@fastmail.fm', 'username@fastmail.com'],
-            // Dots are preserved for Fastmail
+            // Fastmail preserves all characters (no subaddress or dot removal)
             ['user.name@fastmail.com', 'user.name@fastmail.com'],
+            ['user.name+tag@fastmail.com', 'user.name+tag@fastmail.com'],
+            ['user.name+spam@fastmail.com', 'user.name+spam@fastmail.com'],
+            ['user.name+newsletter@fastmail.com', 'user.name+newsletter@fastmail.com'],
+            ['user.name+work@fastmail.com', 'user.name+work@fastmail.com'],
+            ['user.name+personal@fastmail.com', 'user.name+personal@fastmail.com'],
+            ['user.name+test123@fastmail.com', 'user.name+test123@fastmail.com'],
+            ['user.name+anything@fastmail.com', 'user.name+anything@fastmail.com'],
+            ['user.name+verylongtag@fastmail.com', 'user.name+verylongtag@fastmail.com'],
+            ['user.name+tag.with.dots@fastmail.com', 'user.name+tag.with.dots@fastmail.com'],
+            ['user.name+tag-with-hyphens@fastmail.com', 'user.name+tag-with-hyphens@fastmail.com'],
+            ['user.name+tag_with_underscores@fastmail.com', 'user.name+tag_with_underscores@fastmail.com'],
+            ['user.name+tag123@fastmail.com', 'user.name+tag123@fastmail.com'],
+            // Other Fastmail domain
+            ['user.name+tag@fastmail.fm', 'user.name+tag@fastmail.com'],
             ['u.s.e.r.n.a.m.e@fastmail.com', 'u.s.e.r.n.a.m.e@fastmail.com'],
+            ['u.s.e.r.n.a.m.e+tag@fastmail.com', 'u.s.e.r.n.a.m.e+tag@fastmail.com'],
             // Edge cases
-            // ['user+@fastmail.com', 'user@fastmail.com'],
+            ['user+@fastmail.com', 'user+@fastmail.com'],
             ['user.@fastmail.com', 'user.@fastmail.com'],
             ['.user@fastmail.com', '.user@fastmail.com'],
             // Other Fastmail domain
@@ -635,28 +616,27 @@ class EmailTest extends TestCase
     public function test_get_unique_other_domains(): void
     {
         $testCases = [
-            // TODO: Commented out until manual confirmation of generic providers' plus addressing, dots, and hyphens support
-            // // Other domains with plus addressing
-            // ['user.name+tag@example.com', 'username@example.com'],
-            // ['user.name+spam@example.com', 'username@example.com'],
-            // ['user.name+newsletter@example.com', 'username@example.com'],
-            // ['user.name+work@example.com', 'username@example.com'],
-            // ['user.name+personal@example.com', 'username@example.com'],
-            // ['user.name+test123@example.com', 'username@example.com'],
-            // ['user.name+anything@example.com', 'username@example.com'],
-            // ['user.name+verylongtag@example.com', 'username@example.com'],
-            // ['user.name+tag.with.dots@example.com', 'username@example.com'],
-            // ['user.name+tag-with-hyphens@example.com', 'username@example.com'],
-            // ['user.name+tag_with_underscores@example.com', 'username@example.com'],
-            // ['user.name+tag123@example.com', 'username@example.com'],
-            // Dots are preserved for other domains
+            // Generic providers preserve all characters (no subaddress or dot removal)
             ['user.name@example.com', 'user.name@example.com'],
+            ['user.name+tag@example.com', 'user.name+tag@example.com'],
+            ['user.name+spam@example.com', 'user.name+spam@example.com'],
+            ['user.name+newsletter@example.com', 'user.name+newsletter@example.com'],
+            ['user.name+work@example.com', 'user.name+work@example.com'],
+            ['user.name+personal@example.com', 'user.name+personal@example.com'],
+            ['user.name+test123@example.com', 'user.name+test123@example.com'],
+            ['user.name+anything@example.com', 'user.name+anything@example.com'],
+            ['user.name+verylongtag@example.com', 'user.name+verylongtag@example.com'],
+            ['user.name+tag.with.dots@example.com', 'user.name+tag.with.dots@example.com'],
+            ['user.name+tag-with-hyphens@example.com', 'user.name+tag-with-hyphens@example.com'],
+            ['user.name+tag_with_underscores@example.com', 'user.name+tag_with_underscores@example.com'],
+            ['user.name+tag123@example.com', 'user.name+tag123@example.com'],
             ['u.s.e.r.n.a.m.e@example.com', 'u.s.e.r.n.a.m.e@example.com'],
+            ['u.s.e.r.n.a.m.e+tag@example.com', 'u.s.e.r.n.a.m.e+tag@example.com'],
             // Hyphens are preserved for other domains
             ['user-name@example.com', 'user-name@example.com'],
-            // ['user-name+tag@example.com', 'username@example.com'],
+            ['user-name+tag@example.com', 'user-name+tag@example.com'],
             // Edge cases
-            // ['user+@example.com', 'user@example.com'],
+            ['user+@example.com', 'user+@example.com'],
             ['user.@example.com', 'user.@example.com'],
             ['.user@example.com', '.user@example.com'],
         ];
@@ -672,14 +652,12 @@ class EmailTest extends TestCase
         $testCases = [
             // Empty plus addressing
             ['user+@gmail.com', 'user@gmail.com'],
-            // TODO: Commented out until manual confirmation of Outlook's plus addressing support
-            // ['user+@outlook.com', 'user@outlook.com'],
-            // TODO: Commented out until manual confirmation of non-Gmail providers' plus addressing support
-            // ['user+@yahoo.com', 'user@yahoo.com'],
-            // ['user+@icloud.com', 'user@icloud.com'],
-            // ['user+@protonmail.com', 'user@protonmail.com'],
-            // ['user+@fastmail.com', 'user@fastmail.com'],
-            // ['user+@example.com', 'user@example.com'],
+            ['user+@outlook.com', 'user@outlook.com'],
+            ['user+@yahoo.com', 'user+@yahoo.com'],
+            ['user+@icloud.com', 'user@icloud.com'],
+            ['user+@protonmail.com', 'user+@protonmail.com'],
+            ['user+@fastmail.com', 'user+@fastmail.com'],
+            ['user+@example.com', 'user+@example.com'],
             // Plus at the beginning
             ['+user@gmail.com', '+user@gmail.com'],
             ['+user@outlook.com', '+user@outlook.com'],
@@ -690,14 +668,12 @@ class EmailTest extends TestCase
             ['+user@example.com', '+user@example.com'],
             // Multiple plus signs (only first one is considered)
             ['user+tag+more@gmail.com', 'user@gmail.com'],
-            // TODO: Commented out until manual confirmation of Outlook's plus addressing support
-            // ['user+tag+more@outlook.com', 'user@outlook.com'],
-            // TODO: Commented out until manual confirmation of non-Gmail providers' plus addressing support
-            // ['user+tag+more@yahoo.com', 'user@yahoo.com'],
-            // ['user+tag+more@icloud.com', 'user@icloud.com'],
-            // ['user+tag+more@protonmail.com', 'user@protonmail.com'],
-            // ['user+tag+more@fastmail.com', 'user@fastmail.com'],
-            // ['user+tag+more@example.com', 'user@example.com'],
+            ['user+tag+more@outlook.com', 'user@outlook.com'],
+            ['user+tag+more@yahoo.com', 'user+tag+more@yahoo.com'],
+            ['user+tag+more@icloud.com', 'user@icloud.com'],
+            ['user+tag+more@protonmail.com', 'user+tag+more@protonmail.com'],
+            ['user+tag+more@fastmail.com', 'user+tag+more@fastmail.com'],
+            ['user+tag+more@example.com', 'user+tag+more@example.com'],
             // Special characters in plus addressing
             ['user+tag!@gmail.com', 'user@gmail.com'],
             ['user+tag#@gmail.com', 'user@gmail.com'],
@@ -740,30 +716,29 @@ class EmailTest extends TestCase
             ['USER.NAME+TAG@GMAIL.COM', 'username@gmail.com'],
             ['User.Name+Tag@Gmail.Com', 'username@gmail.com'],
             ['user.name+tag@Gmail.com', 'username@gmail.com'],
-            // TODO: Commented out until manual confirmation of Outlook's plus addressing support
-            // ['USER.NAME+TAG@OUTLOOK.COM', 'user.name@outlook.com'],
-            // ['User.Name+Tag@Outlook.Com', 'user.name@outlook.com'],
-            // ['user.name+tag@Outlook.com', 'user.name@outlook.com'],
+            ['USER.NAME+TAG@OUTLOOK.COM', 'user.name@outlook.com'],
+            ['User.Name+Tag@Outlook.Com', 'user.name@outlook.com'],
+            ['user.name+tag@Outlook.com', 'user.name@outlook.com'],
             // Dots are preserved for Outlook
             ['USER.NAME@OUTLOOK.COM', 'user.name@outlook.com'],
             ['User.Name@Outlook.Com', 'user.name@outlook.com'],
             ['user.name@Outlook.com', 'user.name@outlook.com'],
-            // TODO: Commented out until manual confirmation of non-Gmail providers' plus addressing and dots support
-            // ['USER.NAME+TAG@YAHOO.COM', 'username@yahoo.com'],
-            // ['User.Name+Tag@Yahoo.Com', 'username@yahoo.com'],
-            // ['user.name+tag@Yahoo.com', 'username@yahoo.com'],
-            // ['USER.NAME+TAG@ICLOUD.COM', 'username@icloud.com'],
-            // ['User.Name+Tag@Icloud.Com', 'username@icloud.com'],
-            // ['user.name+tag@Icloud.com', 'username@icloud.com'],
-            // ['USER.NAME+TAG@PROTONMAIL.COM', 'username@protonmail.com'],
-            // ['User.Name+Tag@Protonmail.Com', 'username@protonmail.com'],
-            // ['user.name+tag@Protonmail.com', 'username@protonmail.com'],
-            // ['USER.NAME+TAG@FASTMAIL.COM', 'username@fastmail.com'],
-            // ['User.Name+Tag@Fastmail.Com', 'username@fastmail.com'],
-            // ['user.name+tag@Fastmail.com', 'username@fastmail.com'],
-            // ['USER.NAME+TAG@EXAMPLE.COM', 'username@example.com'],
-            // ['User.Name+Tag@Example.Com', 'username@example.com'],
-            // ['user.name+tag@Example.com', 'username@example.com'],
+            // Yahoo hyphen-based subaddress removal
+            ['USER-NAME+TAG@YAHOO.COM', 'user@yahoo.com'],
+            ['User-Name+Tag@Yahoo.Com', 'user@yahoo.com'],
+            ['user-name+tag@Yahoo.com', 'user@yahoo.com'],
+            ['USER.NAME+TAG@ICLOUD.COM', 'user.name@icloud.com'],
+            ['User.Name+Tag@Icloud.Com', 'user.name@icloud.com'],
+            ['user.name+tag@Icloud.com', 'user.name@icloud.com'],
+            ['USER.NAME+TAG@PROTONMAIL.COM', 'user.name+tag@protonmail.com'],
+            ['User.Name+Tag@Protonmail.Com', 'user.name+tag@protonmail.com'],
+            ['user.name+tag@Protonmail.com', 'user.name+tag@protonmail.com'],
+            ['USER.NAME+TAG@FASTMAIL.COM', 'user.name+tag@fastmail.com'],
+            ['User.Name+Tag@Fastmail.Com', 'user.name+tag@fastmail.com'],
+            ['user.name+tag@Fastmail.com', 'user.name+tag@fastmail.com'],
+            ['USER.NAME+TAG@EXAMPLE.COM', 'user.name+tag@example.com'],
+            ['User.Name+Tag@Example.Com', 'user.name+tag@example.com'],
+            ['user.name+tag@Example.com', 'user.name+tag@example.com'],
             // Dots and pluses are preserved for non-Gmail providers
             ['USER.NAME@YAHOO.COM', 'user.name@yahoo.com'],
             ['User.Name@Yahoo.Com', 'user.name@yahoo.com'],
@@ -874,24 +849,19 @@ class EmailTest extends TestCase
         $gmailEmail = new Email('user.name+tag@gmail.com');
         $this->assertEquals('username@gmail.com', $gmailEmail->getCanonical());
 
-        // TODO: Commented out until manual confirmation of Outlook's plus addressing support
-        // $outlookEmail = new Email('user.name+tag@outlook.com');
-        // $this->assertEquals('user.name@outlook.com', $outlookEmail->getCanonical());
+        $outlookEmail = new Email('user.name+tag@outlook.com');
+        $this->assertEquals('user.name@outlook.com', $outlookEmail->getCanonical());
 
         // Dots are preserved for Outlook
         $outlookEmail = new Email('user.name@outlook.com');
         $this->assertEquals('user.name@outlook.com', $outlookEmail->getCanonical());
 
-        // TODO: Commented out until manual confirmation of non-Gmail providers' plus addressing and dots support
-        // $yahooEmail = new Email('user-name+tag@yahoo.com');
-        // $this->assertEquals('username@yahoo.com', $yahooEmail->getCanonical());
+        $genericEmail = new Email('user.name+tag@example.com');
+        $this->assertEquals('user.name+tag@example.com', $genericEmail->getCanonical());
 
-        // $genericEmail = new Email('user.name+tag@example.com');
-        // $this->assertEquals('username@example.com', $genericEmail->getCanonical());
-
-        // Dots and pluses are preserved for non-Gmail providers
+        // Yahoo removes hyphen-based subaddresses, other providers preserve characters
         $yahooEmail = new Email('user-name@yahoo.com');
-        $this->assertEquals('user-name@yahoo.com', $yahooEmail->getCanonical());
+        $this->assertEquals('user@yahoo.com', $yahooEmail->getCanonical());
 
         $genericEmail = new Email('user.name@example.com');
         $this->assertEquals('user.name@example.com', $genericEmail->getCanonical());

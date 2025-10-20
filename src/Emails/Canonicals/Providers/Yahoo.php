@@ -7,15 +7,15 @@ use Utopia\Emails\Canonicals\Provider;
 /**
  * Yahoo
  *
- * Handles Yahoo email normalization
- * - TODO: Plus addressing, dots, and hyphens removal commented out until manual confirmation
- * - Preserves dots and hyphens in local part
+ * Handles Yahoo email normalization based on validator.js rules
+ * - Removes hyphen-based subaddress (everything after last -)
+ * - Preserves dots in local part
  * - Normalizes to yahoo.com domain
  */
 class Yahoo extends Provider
 {
     private const SUPPORTED_DOMAINS = [
-        'yahoo.com', 'yahoo.co.uk', 'yahoo.ca',
+        'yahoo.com', 'yahoo.co.uk', 'yahoo.ca', 'yahoo.de', 'yahoo.fr', 'yahoo.in', 'yahoo.it',
         'ymail.com', 'rocketmail.com',
     ];
 
@@ -31,20 +31,13 @@ class Yahoo extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // TODO: Commented out until manual confirmation of Yahoo's plus addressing, dots, and hyphens support
-        // Check if there's plus addressing
-        // $hasPlus = strpos($normalizedLocal, '+') !== false && strpos($normalizedLocal, '+') > 0;
+        // Remove hyphen-based subaddress (everything after last -)
+        $normalizedLocal = $this->removeHyphenSubaddress($normalizedLocal);
 
-        // Remove plus addressing (everything after +)
-        // $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
-
-        // Remove dots only if there was plus addressing (Yahoo treats dots as aliases only with plus)
-        // if ($hasPlus) {
-        //     $normalizedLocal = $this->removeDots($normalizedLocal);
-        // }
-
-        // Remove hyphens (Yahoo treats hyphens as aliases)
-        // $normalizedLocal = $this->removeHyphens($normalizedLocal);
+        // Ensure local part is not empty after normalization
+        if (empty($normalizedLocal)) {
+            throw new \InvalidArgumentException('Email local part cannot be empty after normalization');
+        }
 
         return [
             'local' => $normalizedLocal,

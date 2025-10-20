@@ -5,18 +5,19 @@ namespace Utopia\Emails\Canonicals\Providers;
 use Utopia\Emails\Canonicals\Provider;
 
 /**
- * iCloud
+ * Yandex
  *
- * Handles Apple iCloud email normalization based on validator.js rules
- * - Removes plus addressing (subaddress)
- * - Preserves dots in local part
- * - Normalizes to icloud.com domain
+ * Handles Yandex email normalization based on validator.js rules
+ * - Preserves all characters in local part (no subaddress removal)
+ * - Normalizes to yandex.ru domain
  */
-class Icloud extends Provider
+class Yandex extends Provider
 {
-    private const SUPPORTED_DOMAINS = ['icloud.com', 'me.com', 'mac.com'];
+    private const SUPPORTED_DOMAINS = [
+        'yandex.ru', 'yandex.ua', 'yandex.kz', 'yandex.com', 'yandex.by', 'ya.ru',
+    ];
 
-    private const CANONICAL_DOMAIN = 'icloud.com';
+    private const CANONICAL_DOMAIN = 'yandex.ru';
 
     public function supports(string $domain): bool
     {
@@ -28,13 +29,8 @@ class Icloud extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // Remove plus addressing (subaddress) - everything after +
-        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
-
-        // Ensure local part is not empty after normalization
-        if (empty($normalizedLocal)) {
-            throw new \InvalidArgumentException('Email local part cannot be empty after normalization');
-        }
+        // Yandex doesn't remove subaddresses or dots
+        // Just normalize case and domain
 
         return [
             'local' => $normalizedLocal,
