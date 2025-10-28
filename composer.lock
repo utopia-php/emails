@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80afb080db5ae6038599489515325228",
+    "content-hash": "3e0928f883a40d59f560f74010c4f6b7",
     "packages": [
         {
             "name": "brick/math",
@@ -2369,16 +2369,16 @@
         },
         {
             "name": "utopia-php/validators",
-            "version": "0.0.1",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/validators.git",
-                "reference": "69d1afa5df2f052535764520609e91b491708db2"
+                "reference": "894210695c5d35fa248fb65f7fe7237b6ff4fb0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/validators/zipball/69d1afa5df2f052535764520609e91b491708db2",
-                "reference": "69d1afa5df2f052535764520609e91b491708db2",
+                "url": "https://api.github.com/repos/utopia-php/validators/zipball/894210695c5d35fa248fb65f7fe7237b6ff4fb0b",
+                "reference": "894210695c5d35fa248fb65f7fe7237b6ff4fb0b",
                 "shasum": ""
             },
             "require": {
@@ -2409,9 +2409,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/validators/issues",
-                "source": "https://github.com/utopia-php/validators/tree/0.0.1"
+                "source": "https://github.com/utopia-php/validators/tree/0.0.2"
             },
-            "time": "2025-10-20T15:08:50+00:00"
+            "time": "2025-10-20T21:52:28+00:00"
         }
     ],
     "packages-dev": [
@@ -4334,12 +4334,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.0"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
