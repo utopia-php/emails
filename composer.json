@@ -28,7 +28,7 @@
       "php": ">=8.0",
       "utopia-php/validators": "^0.0.1",
       "utopia-php/cli": "^0.15",
-      "utopia-php/domains": "^0.8",
+      "utopia-php/domains": "^0.9",
       "utopia-php/fetch": "^0.4"
   },
   "require-dev": {
