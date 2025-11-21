@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e0928f883a40d59f560f74010c4f6b7",
+    "content-hash": "e562cac089315cc077a12936a6a5b92c",
     "packages": [
         {
             "name": "brick/math",
@@ -2061,26 +2061,26 @@
         },
         {
             "name": "utopia-php/domains",
-            "version": "0.9.1",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/domains.git",
-                "reference": "99b4ec95d5d6b7a5c990a66c56412212d9af37e7"
+                "reference": "10505df98e125d03410594dd86ccd46bc0e16a57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/domains/zipball/99b4ec95d5d6b7a5c990a66c56412212d9af37e7",
-                "reference": "99b4ec95d5d6b7a5c990a66c56412212d9af37e7",
+                "url": "https://api.github.com/repos/utopia-php/domains/zipball/10505df98e125d03410594dd86ccd46bc0e16a57",
+                "reference": "10505df98e125d03410594dd86ccd46bc0e16a57",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0",
+                "php": ">=8.2",
                 "utopia-php/cache": "0.13.*",
                 "utopia-php/validators": "0.0.*"
             },
             "require-dev": {
-                "laravel/pint": "1.2.*",
-                "phpstan/phpstan": "1.9.x-dev",
+                "laravel/pint": "^1.18",
+                "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "^9.3"
             },
             "type": "library",
@@ -2117,9 +2117,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/domains/issues",
-                "source": "https://github.com/utopia-php/domains/tree/0.9.1"
+                "source": "https://github.com/utopia-php/domains/tree/0.10.0"
             },
-            "time": "2025-10-21T14:52:27+00:00"
+            "time": "2025-11-03T12:49:34+00:00"
         },
         {
             "name": "utopia-php/fetch",
@@ -4341,5 +4341,5 @@
         "php": ">=8.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
