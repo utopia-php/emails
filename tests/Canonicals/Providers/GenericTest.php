@@ -62,21 +62,21 @@ class GenericTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
         // Generic provider doesn't have a canonical domain
-        $this->assertEquals('', $this->provider->getCanonicalDomain());
+        $this->assertSame('', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
     {
         // Generic provider supports all domains
         $domains = $this->provider->getSupportedDomains();
-        $this->assertEquals([], $domains);
+        $this->assertSame([], $domains);
     }
 }

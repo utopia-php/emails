@@ -52,20 +52,20 @@ class YandexTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
-        $this->assertEquals('yandex.ru', $this->provider->getCanonicalDomain());
+        $this->assertSame('yandex.ru', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
         $expected = ['yandex.ru', 'yandex.ua', 'yandex.kz', 'yandex.com', 'yandex.by', 'ya.ru'];
-        $this->assertEquals($expected, $domains);
+        $this->assertSame($expected, $domains);
     }
 }

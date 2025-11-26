@@ -70,20 +70,20 @@ class YahooTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
-        $this->assertEquals('yahoo.com', $this->provider->getCanonicalDomain());
+        $this->assertSame('yahoo.com', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
         $expected = ['yahoo.com', 'yahoo.co.uk', 'yahoo.ca', 'yahoo.de', 'yahoo.fr', 'yahoo.in', 'yahoo.it', 'ymail.com', 'rocketmail.com'];
-        $this->assertEquals($expected, $domains);
+        $this->assertSame($expected, $domains);
     }
 }

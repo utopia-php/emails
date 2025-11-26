@@ -56,20 +56,20 @@ class ProtonmailTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
-        $this->assertEquals('protonmail.com', $this->provider->getCanonicalDomain());
+        $this->assertSame('protonmail.com', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
         $expected = ['protonmail.com', 'proton.me', 'pm.me'];
-        $this->assertEquals($expected, $domains);
+        $this->assertSame($expected, $domains);
     }
 }
