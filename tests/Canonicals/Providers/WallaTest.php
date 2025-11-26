@@ -57,19 +57,19 @@ class WallaTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
-        $this->assertEquals('walla.co.il', $this->provider->getCanonicalDomain());
+        $this->assertSame('walla.co.il', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
     {
         $domains = $this->provider->getSupportedDomains();
-        $this->assertEquals(['walla.co.il', 'walla.com'], $domains);
+        $this->assertSame(['walla.co.il', 'walla.com'], $domains);
     }
 }

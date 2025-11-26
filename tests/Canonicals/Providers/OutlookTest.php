@@ -79,14 +79,14 @@ class OutlookTest extends TestCase
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {
             $result = $this->provider->getCanonical($inputLocal, $inputDomain);
-            $this->assertEquals($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
-            $this->assertEquals($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedLocal, $result['local'], "Failed for local: {$inputLocal}@{$inputDomain}");
+            $this->assertSame($expectedDomain, $result['domain'], "Failed for domain: {$inputLocal}@{$inputDomain}");
         }
     }
 
     public function test_get_canonical_domain(): void
     {
-        $this->assertEquals('outlook.com', $this->provider->getCanonicalDomain());
+        $this->assertSame('outlook.com', $this->provider->getCanonicalDomain());
     }
 
     public function test_get_supported_domains(): void
@@ -106,6 +106,6 @@ class OutlookTest extends TestCase
             'live.com', 'live.be', 'live.co.uk', 'live.com.ar', 'live.com.mx', 'live.de', 'live.es', 'live.eu', 'live.fr', 'live.it', 'live.nl',
             'msn.com', 'passport.com',
         ];
-        $this->assertEquals($expected, $domains);
+        $this->assertSame($expected, $domains);
     }
 }
