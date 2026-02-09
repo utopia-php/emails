@@ -3,7 +3,7 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 use Utopia\CLI\CLI;
-use Utopia\CLI\Console;
+use Utopia\Console;
 use Utopia\Validator\Boolean;
 use Utopia\Validator\Text;
 
