@@ -786,6 +786,7 @@ class EmailTest extends TestCase
             'user@protonmail.com',
             'user@proton.me',
             'user@pm.me',
+            'user@protonmail.ch',
             'user@fastmail.com',
             'user@fastmail.fm',
         ];
@@ -830,6 +831,7 @@ class EmailTest extends TestCase
             ['user@protonmail.com', 'protonmail.com'],
             ['user@proton.me', 'protonmail.com'],
             ['user@pm.me', 'protonmail.com'],
+            ['user@protonmail.ch', 'protonmail.com'],
             ['user@fastmail.com', 'fastmail.com'],
             ['user@fastmail.fm', 'fastmail.com'],
             ['user@example.com', null],
