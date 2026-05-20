@@ -10,10 +10,12 @@ use Utopia\Emails\Canonicals\Provider;
  * Handles ProtonMail email normalization
  * - Preserves all characters in local part (no subaddress or dot removal)
  * - Normalizes to protonmail.com domain
+ * 
+ * Docs: https://proton.me/support/creating-aliases#+Aliases
  */
 class Protonmail extends Provider
 {
-    private const SUPPORTED_DOMAINS = ['protonmail.com', 'proton.me', 'pm.me'];
+    private const SUPPORTED_DOMAINS = ['protonmail.com', 'proton.me', 'pm.me', 'protonmail.ch'];
 
     private const CANONICAL_DOMAIN = 'protonmail.com';
 
@@ -27,12 +29,18 @@ class Protonmail extends Provider
         // Convert to lowercase
         $normalizedLocal = $this->toLowerCase($local);
 
-        // ProtonMail doesn't remove subaddresses or dots
-        // Just normalize case and domain
+        // Remove plus addressing (subaddress) - everything after +
+        $normalizedLocal = $this->removePlusAddressing($normalizedLocal);
+        
+        // protonmail.ch, protonmail.com - not subaddress, just different options during sign up
+        // pm.me - technically subaddress, but costs monthly fee, and gives just +1 email. Costly already, no need to block. People get it for shorter email to type it quicker anyway
+        $allowedDomains = [
+            ...self::SUPPORTED_DOMAINS,
+        ];
 
         return [
             'local' => $normalizedLocal,
-            'domain' => self::CANONICAL_DOMAIN,
+            'domain' => \in_array($domain, $allowedDomains, true) ? $domain : self::CANONICAL_DOMAIN,
         ];
     }
 
