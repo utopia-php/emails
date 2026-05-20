@@ -544,32 +544,33 @@ class EmailTest extends TestCase
     public function test_get_unique_protonmail_aliases(): void
     {
         $testCases = [
-            // ProtonMail preserves all characters (no subaddress or dot removal)
+            // ProtonMail removes plus addressing but preserves dots
             ['user.name@protonmail.com', 'user.name@protonmail.com'],
-            ['user.name+tag@protonmail.com', 'user.name+tag@protonmail.com'],
-            ['user.name+spam@protonmail.com', 'user.name+spam@protonmail.com'],
-            ['user.name+newsletter@protonmail.com', 'user.name+newsletter@protonmail.com'],
-            ['user.name+work@protonmail.com', 'user.name+work@protonmail.com'],
-            ['user.name+personal@protonmail.com', 'user.name+personal@protonmail.com'],
-            ['user.name+test123@protonmail.com', 'user.name+test123@protonmail.com'],
-            ['user.name+anything@protonmail.com', 'user.name+anything@protonmail.com'],
-            ['user.name+verylongtag@protonmail.com', 'user.name+verylongtag@protonmail.com'],
-            ['user.name+tag.with.dots@protonmail.com', 'user.name+tag.with.dots@protonmail.com'],
-            ['user.name+tag-with-hyphens@protonmail.com', 'user.name+tag-with-hyphens@protonmail.com'],
-            ['user.name+tag_with_underscores@protonmail.com', 'user.name+tag_with_underscores@protonmail.com'],
-            ['user.name+tag123@protonmail.com', 'user.name+tag123@protonmail.com'],
-            // Other ProtonMail domains
-            ['user.name+tag@proton.me', 'user.name+tag@protonmail.com'],
-            ['user.name+tag@pm.me', 'user.name+tag@protonmail.com'],
+            ['user.name+tag@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+spam@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+newsletter@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+work@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+personal@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+test123@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+anything@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+verylongtag@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+tag.with.dots@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+tag-with-hyphens@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+tag_with_underscores@protonmail.com', 'user.name@protonmail.com'],
+            ['user.name+tag123@protonmail.com', 'user.name@protonmail.com'],
             ['u.s.e.r.n.a.m.e@protonmail.com', 'u.s.e.r.n.a.m.e@protonmail.com'],
-            ['u.s.e.r.n.a.m.e+tag@protonmail.com', 'u.s.e.r.n.a.m.e+tag@protonmail.com'],
+            ['u.s.e.r.n.a.m.e+tag@protonmail.com', 'u.s.e.r.n.a.m.e@protonmail.com'],
             // Edge cases
-            ['user+@protonmail.com', 'user+@protonmail.com'],
+            ['user+@protonmail.com', 'user@protonmail.com'],
             ['user.@protonmail.com', 'user.@protonmail.com'],
             ['.user@protonmail.com', '.user@protonmail.com'],
-            // Other ProtonMail domains
-            ['user.name@proton.me', 'user.name@protonmail.com'],
-            ['user.name@pm.me', 'user.name@protonmail.com'],
+            // Other ProtonMail domains (kept as canonical, not aliases)
+            ['user.name+tag@proton.me', 'user.name@proton.me'],
+            ['user.name+tag@pm.me', 'user.name@pm.me'],
+            ['user.name@proton.me', 'user.name@proton.me'],
+            ['user.name@pm.me', 'user.name@pm.me'],
+            ['user.name@protonmail.ch', 'user.name@protonmail.ch'],
+            ['user.name+tag@protonmail.ch', 'user.name@protonmail.ch'],
         ];
 
         foreach ($testCases as [$input, $expected]) {
@@ -655,7 +656,7 @@ class EmailTest extends TestCase
             ['user+@outlook.com', 'user@outlook.com'],
             ['user+@yahoo.com', 'user+@yahoo.com'],
             ['user+@icloud.com', 'user@icloud.com'],
-            ['user+@protonmail.com', 'user+@protonmail.com'],
+            ['user+@protonmail.com', 'user@protonmail.com'],
             ['user+@fastmail.com', 'user+@fastmail.com'],
             ['user+@example.com', 'user+@example.com'],
             // Plus at the beginning
@@ -671,7 +672,7 @@ class EmailTest extends TestCase
             ['user+tag+more@outlook.com', 'user@outlook.com'],
             ['user+tag+more@yahoo.com', 'user+tag+more@yahoo.com'],
             ['user+tag+more@icloud.com', 'user@icloud.com'],
-            ['user+tag+more@protonmail.com', 'user+tag+more@protonmail.com'],
+            ['user+tag+more@protonmail.com', 'user@protonmail.com'],
             ['user+tag+more@fastmail.com', 'user+tag+more@fastmail.com'],
             ['user+tag+more@example.com', 'user+tag+more@example.com'],
             // Special characters in plus addressing
@@ -730,9 +731,9 @@ class EmailTest extends TestCase
             ['USER.NAME+TAG@ICLOUD.COM', 'user.name@icloud.com'],
             ['User.Name+Tag@Icloud.Com', 'user.name@icloud.com'],
             ['user.name+tag@Icloud.com', 'user.name@icloud.com'],
-            ['USER.NAME+TAG@PROTONMAIL.COM', 'user.name+tag@protonmail.com'],
-            ['User.Name+Tag@Protonmail.Com', 'user.name+tag@protonmail.com'],
-            ['user.name+tag@Protonmail.com', 'user.name+tag@protonmail.com'],
+            ['USER.NAME+TAG@PROTONMAIL.COM', 'user.name@protonmail.com'],
+            ['User.Name+Tag@Protonmail.Com', 'user.name@protonmail.com'],
+            ['user.name+tag@Protonmail.com', 'user.name@protonmail.com'],
             ['USER.NAME+TAG@FASTMAIL.COM', 'user.name+tag@fastmail.com'],
             ['User.Name+Tag@Fastmail.Com', 'user.name+tag@fastmail.com'],
             ['user.name+tag@Fastmail.com', 'user.name+tag@fastmail.com'],
@@ -785,6 +786,7 @@ class EmailTest extends TestCase
             'user@protonmail.com',
             'user@proton.me',
             'user@pm.me',
+            'user@protonmail.ch',
             'user@fastmail.com',
             'user@fastmail.fm',
         ];
@@ -829,6 +831,7 @@ class EmailTest extends TestCase
             ['user@protonmail.com', 'protonmail.com'],
             ['user@proton.me', 'protonmail.com'],
             ['user@pm.me', 'protonmail.com'],
+            ['user@protonmail.ch', 'protonmail.com'],
             ['user@fastmail.com', 'fastmail.com'],
             ['user@fastmail.fm', 'fastmail.com'],
             ['user@example.com', null],
