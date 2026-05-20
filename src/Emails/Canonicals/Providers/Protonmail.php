@@ -8,8 +8,9 @@ use Utopia\Emails\Canonicals\Provider;
  * ProtonMail
  *
  * Handles ProtonMail email normalization
- * - Preserves all characters in local part (no subaddress or dot removal)
- * - Normalizes to protonmail.com domain
+ * - Removes plus addressing (subaddress) from local part
+ * - Preserves dots in local part
+ * - Does not normalize domains
  *
  * Docs: https://proton.me/support/creating-aliases#+Aliases
  */
@@ -34,13 +35,9 @@ class Protonmail extends Provider
 
         // protonmail.ch, protonmail.com - not subaddress, just different options during sign up
         // pm.me - technically subaddress, but costs monthly fee, and gives just +1 email. Costly already, no need to block. People get it for shorter email to type it quicker anyway
-        $allowedDomains = [
-            ...self::SUPPORTED_DOMAINS,
-        ];
-
         return [
             'local' => $normalizedLocal,
-            'domain' => \in_array($domain, $allowedDomains, true) ? $domain : self::CANONICAL_DOMAIN,
+            'domain' => \in_array($domain, self::SUPPORTED_DOMAINS, true) ? $domain : self::CANONICAL_DOMAIN,
         ];
     }
 
