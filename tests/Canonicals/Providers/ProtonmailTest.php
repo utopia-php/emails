@@ -52,6 +52,10 @@ class ProtonmailTest extends TestCase
             ['user.name+tag', 'pm.me', 'user.name+tag', 'protonmail.com'],
             ['user.name', 'proton.me', 'user.name', 'protonmail.com'],
             ['user.name', 'pm.me', 'user.name', 'protonmail.com'],
+            // Uppercase sensitivity
+            ['MyMail777', 'proton.me', 'mymail777', 'protonmail.com'],
+            ['MYMAIL777', 'proton.me', 'mymail777', 'protonmail.com'],
+            ['mymail777', 'proton.me', 'mymail777', 'protonmail.com'],
         ];
 
         foreach ($testCases as [$inputLocal, $inputDomain, $expectedLocal, $expectedDomain]) {

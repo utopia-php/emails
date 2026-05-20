@@ -561,6 +561,7 @@ class EmailTest extends TestCase
             // Other ProtonMail domains
             ['user.name+tag@proton.me', 'user.name+tag@protonmail.com'],
             ['user.name+tag@pm.me', 'user.name+tag@protonmail.com'],
+            ['mymail777@proton.me', 'mymail777@protonmail.com'],
             ['u.s.e.r.n.a.m.e@protonmail.com', 'u.s.e.r.n.a.m.e@protonmail.com'],
             ['u.s.e.r.n.a.m.e+tag@protonmail.com', 'u.s.e.r.n.a.m.e+tag@protonmail.com'],
             // Edge cases
@@ -733,6 +734,9 @@ class EmailTest extends TestCase
             ['USER.NAME+TAG@PROTONMAIL.COM', 'user.name+tag@protonmail.com'],
             ['User.Name+Tag@Protonmail.Com', 'user.name+tag@protonmail.com'],
             ['user.name+tag@Protonmail.com', 'user.name+tag@protonmail.com'],
+            ['MYMAIL777@PROTON.ME', 'mymail777@protonmail.com'],
+            ['MyMail777@Proton.Me', 'mymail777@protonmail.com'],
+            ['mymail777@proton.me', 'mymail777@protonmail.com'],
             ['USER.NAME+TAG@FASTMAIL.COM', 'user.name+tag@fastmail.com'],
             ['User.Name+Tag@Fastmail.Com', 'user.name+tag@fastmail.com'],
             ['user.name+tag@Fastmail.com', 'user.name+tag@fastmail.com'],
