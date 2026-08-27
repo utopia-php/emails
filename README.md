@@ -323,7 +323,7 @@ Sources are defined in `import.php`. You can:
 
 ## System Requirements
 
-Utopia Emails requires PHP 8.0 or later. We recommend using the latest PHP version whenever possible.
+Utopia Emails requires PHP 8.5 or later. We recommend using the latest PHP version whenever possible.
 
 ## Authors
 
