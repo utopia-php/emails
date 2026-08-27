@@ -25,8 +25,8 @@
     "import:stats": "php import.php stats"
   },
   "require": {
-      "php": ">=8.4",
-      "utopia-php/validators": "0.*",
+      "php": ">=8.5",
+      "utopia-php/validators": "^0.6",
       "utopia-php/domains": "^3.0"
   },
   "require-dev": {

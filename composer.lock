@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2552af5e0eafff89bc7bac32880d986c",
+    "content-hash": "74a53444ca63ca3166574733d7c01f6a",
     "packages": [
         {
             "name": "brick/math",
@@ -2162,25 +2162,20 @@
         },
         {
             "name": "utopia-php/validators",
-            "version": "0.2.3",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/validators.git",
-                "reference": "9770269c8ed8e6909934965fa8722103c7434c23"
+                "reference": "7afdde56a7a635f0cb3d8a5e22ebbef40baf31dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/validators/zipball/9770269c8ed8e6909934965fa8722103c7434c23",
-                "reference": "9770269c8ed8e6909934965fa8722103c7434c23",
+                "url": "https://api.github.com/repos/utopia-php/validators/zipball/7afdde56a7a635f0cb3d8a5e22ebbef40baf31dc",
+                "reference": "7afdde56a7a635f0cb3d8a5e22ebbef40baf31dc",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0"
-            },
-            "require-dev": {
-                "laravel/pint": "1.*",
-                "phpstan/phpstan": "2.*",
-                "phpunit/phpunit": "11.*"
+                "php": ">=8.5"
             },
             "type": "library",
             "autoload": {
@@ -2201,9 +2196,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/validators/issues",
-                "source": "https://github.com/utopia-php/validators/tree/0.2.3"
+                "source": "https://github.com/utopia-php/validators/tree/0.6.0"
             },
-            "time": "2026-05-14T08:05:44+00:00"
+            "time": "2026-08-27T04:46:08+00:00"
         }
     ],
     "packages-dev": [
@@ -4175,21 +4170,20 @@
         },
         {
             "name": "utopia-php/console",
-            "version": "0.2.1",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/console.git",
-                "reference": "97e3de44424ee9ea207c3129dfcc82f8df37c5b5"
+                "reference": "d298e43960780e6d76e66de1228c75dc81220e3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/console/zipball/97e3de44424ee9ea207c3129dfcc82f8df37c5b5",
-                "reference": "97e3de44424ee9ea207c3129dfcc82f8df37c5b5",
+                "url": "https://api.github.com/repos/utopia-php/console/zipball/d298e43960780e6d76e66de1228c75dc81220e3e",
+                "reference": "d298e43960780e6d76e66de1228c75dc81220e3e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0",
-                "utopia-php/validators": "^0.2.0"
+                "php": ">=8.0"
             },
             "require-dev": {
                 "laravel/pint": "1.2.*",
@@ -4218,9 +4212,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/console/issues",
-                "source": "https://github.com/utopia-php/console/tree/0.2.1"
+                "source": "https://github.com/utopia-php/console/tree/0.1.1"
             },
-            "time": "2026-04-20T10:53:53+00:00"
+            "time": "2026-02-10T10:20:29+00:00"
         },
         {
             "name": "utopia-php/di",
@@ -4371,7 +4365,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.4"
+        "php": ">=8.5"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
