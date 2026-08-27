@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.4', '8.5', 'nightly']
+        php-versions: ['8.5', 'nightly']
 
     steps:
     - name: Checkout repository
